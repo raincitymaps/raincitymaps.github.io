@@ -233,7 +233,7 @@
 		legend3.onAdd = function (map) {
 			var div = L.DomUtil.create('div', 'info legend'),
 				grades3 = [0, 14, 19, 21, 26, 40, 79, 188],
-				labels3 = [],
+				labels3 = ["<div style='text-align:center !important; height: 2.8em;'>Features per<br> 10,000<br>residents</div>"],
 				from, to;      
 
 			for (var i = 0; i < grades3.length; i++) {

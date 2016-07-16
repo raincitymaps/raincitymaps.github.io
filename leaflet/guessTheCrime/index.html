@@ -1,0 +1,180 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>Guess the 911 Calls</title>
+	<style type="text/css">
+	.quiz-el{ float: left; }
+	/*
+jQuizMe 2.1 - 12/15/09 Programmed and CopyWrited by Larry Battle 2008 - 2009 - heavily edited and used by Harry 2016
+*/	
+.quiz-el{
+	font-family: segoe ui, Verdana, Helvetica, sans-serif;
+	position: relative;
+	padding: 0.2em;
+	max-width: 500px;
+	color: #225ea8;
+}
+.quiz-el div{
+	padding: 0.2em;
+}
+.quiz-el input{
+	font-size: 0.8em;
+}
+.q-innerArea{
+	background: #FFFFFF;
+	position:relative;
+	clear: both;
+	color: #225ea8;
+	width: 620px
+}
+.q-intro{
+	padding: 0.2em;
+}
+.q-probArea{
+	background: rgba(255,255,255,0.4);
+	position: relative;
+	width: 620px;
+	z-index: 999;
+}
+.q-begin-btn{
+float:right;
+}
+.q-check-btn{
+position:relative;
+top: -27px;
+float:right;
+}
+
+.q-ans {
+	background: rgba(255,255,255,0.7);
+	position: absolute;
+	top: 20px;
+	left: 130px;
+	width: 350px;
+	height: 34px;
+	z-index: 999;
+}
+.q-result{
+	background: rgba(255,255,255,0.7);
+	position: absolute;
+	top: 60px;
+	left: 130px;
+	width: 350px;
+	z-index:9999;
+	}
+
+.q-review-arrows{
+	display: inline;
+	width: auto;
+}
+.q-review-arrows{
+	position: relative;	/*IE hack.*/
+	width: 2.3em;
+}
+.q-center{
+	text-align: center;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.q-gameOver .q-statTotal{
+	color: #225ea8;
+}
+.q-quesInput{
+	width: 95%;
+}
+.q-ol{
+	list-style-type: upper-alpha;
+	list-style-position: inside;
+	padding: 0;
+	margin: 0;
+}
+.q-ol-li{
+	margin: 0.4em auto 0.4em auto;
+}
+.q-ol-hover{
+	background: #777777;
+}
+.q-ol-active{
+	background: black;
+	color: #ccffaa;
+}
+/*IE displays the wrong width for <select> tags.*/
+.q-select{
+	width : 80%;
+	border-color: #225ea8;
+	color: #225ea8;
+	font-family: segoe ui, Verdana, Helvetica, sans-serif;
+}
+.q-timer-area{
+	display:block;
+	text-align:center;
+	width: auto;
+}
+.q-review-menu{
+	text-align: center;
+	width: 620px;
+	
+}
+.q-reviewBar-btns{
+	position: relative;
+	display: inline-block;
+	width: 49%;
+}
+.q-rightArrow{
+	float:right;
+}
+.q-leftArrow{
+	float:left;
+}
+input{
+	background-color: #225ea8;
+	font-family: segoe ui;
+	color: #FFFFFF;
+	border-color: #225ea8;
+}
+
+		body {
+			padding: 0;
+			margin: 0;
+			font: 16px/1.4 "segoe ui", Arial, sans-serif;
+			color: 225ea8 !important;
+			font-size: .94em;
+		}
+		html, body, #map, #quizArea {
+			height: 100%;
+		}
+		a {
+	color: #41b6c4 !important;
+	    text-decoration: none;
+	}
+	
+	
+	
+	</style>
+	<script type="text/javascript" src = "http://code.jquery.com/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="jQuizme.js"></script>
+</head>
+<body>
+	<div id="quizArea"></div>
+</body>
+<script type="text/javascript">
+$( function($){
+	var quizMulti = {
+        multiList:[
+			{ ques: "<iframe src='prostitution.html' frameBorder='0' style='width:610px; height: 500px;'>your browser is incompatable.</iframe><br>", ans: "Prostitution", ansSel : ["Parking violation", "Auto theft",  "Abandoned vehicle"]},
+			{ ques: "<iframe src='driveby.html' frameBorder='0' style='width:610px; height: 500px;'>your browser is incompatable.</iframe><br>", ans: "Drive by shooting (no injuries)", ansSel : ["Robbery", "License plate theft or loss",  "Blocking vehicle"]},
+			{ ques: "<iframe src='publicDrunk.html' frameBorder='0' style='width:610px; height: 500px;'>your browser is incompatable.</iframe><br>", ans: "Intoxicated person", ansSel : ["Robbery", "Shoplifting",  "Commercial burglary (false alarm)"]},
+			{ ques: "<iframe src='waterEmergency.html' frameBorder='0' style='width:610px; height: 500px;'>your browser is incompatable.</iframe><br>", ans: "Water emergency", ansSel : ["Littering (Parks Code Violations)", "Suspicious person",  "Narcotics"]},
+			{ ques: "<iframe src='noiseComplaint.html' frameBorder='0' style='width:610px; height: 500px;'>your browser is incompatable.</iframe><br>", ans: "Noise complaints (residential)", ansSel : ["Alarms (residential)", "Fight disturbance",  "Bicycle theft"]},
+			
+        ]
+	};
+	// quizMulti has 5 problems with 3 different quiz types.
+	$( "#quizArea" ).jQuizMe( quizMulti, { intro: "Crimes and emergencies tend to have <a href='http://www.sciencedirect.com/science/article/pii/S0198971513000185' target='_blank'>specific geospatial patterns</a>. Generally, if you know a city well enough, you know where certain crimes and emergencies are likely occur. <br><br> The following quiz is made up of 5 different hotspot maps; each map depicts a specific <a href='#' title='Seattle Police Department'>SPD</a> 911 incident response. Your job is to guess which crime corresponds to which map. The maps use <a href='https://en.wikipedia.org/wiki/Kernel_density_estimation' target='_blank'>kernel density estimation</a> to give the viewer an idea of where events are clustered. See the below example and click ''begin quiz'' when you're ready.<br><iframe src='prostitution.html' frameBorder='0' style='width:610px; height: 340px;'>your browser is incompatable.</iframe><br><small>Data: <a href='https://data.seattle.gov/Public-Safety/Seattle-Police-Department-911-Incident-Response/3k2p-39jp' target='_blank'>Seattle Police 911 Incident Response</a></small>", random: false, disableDelete: true, allQuizType: "multi", title: "<b>SPD 911 Incident Response</b>"} );
+});
+</script>
+
+
+</html>

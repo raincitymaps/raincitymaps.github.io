@@ -1,0 +1,146 @@
+
+/*wrappers */
+	
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #41b6c4;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    letter-spacing: 3px;
+
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+    text-align: center;
+    color:#225ea8;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color:#225ea8;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #41b6c4;
+
+    background: #225ea8;
+
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+ }
+
+
+    li, ul {
+    color:#225ea8;
+}
+
+    #logotext{
+    position: absolute;
+    left: 160px;
+    top: 100px;
+    text-decoration: none !important;
+    letter-spacing: .5em;
+    font-size: 1.3em;
+}
+
+
+/*adjust to screen size*/
+@media screen and (min-width: 0px) and (max-width: 767px) {
+    #smallscreennav{
+        display: block !important;
+    }
+   /*show phone menu for small screens*/
+}
+
+@media screen and (min-width:768px) {
+    #smallscreennav{
+	display:none !important;
+    }
+
+    #wrapper {
+        padding-left: 250px;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+}
+
+
+/* body stuff */
+	body {
+	background-color: ;
+	color: #225ea8;
+	font-family: segoe ui;
+	}
+	
+	#container{
+	margin-left: auto;
+	margin-right: auto;
+	width: 85%;
+	}
+	.text{
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 650px;
+	font-family: segoe ui;
+	font-size: 1.1em;
+	}
+	.text a {
+	color: #41b6c4 !important;
+	}
+	.text h3{
+	color: #225ea8 !important; 
+	}
+	.btn{
+	background-color: white;
+		
+	}

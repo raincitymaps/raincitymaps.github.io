@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>heatmap Seattle crime</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <style>
+		body {
+			padding: 0;
+			margin: 0;
+			font: 16px/1.4 "segoe ui", Arial, sans-serif;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255, 1.0);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+			text-align: right;
+			z-index: 99999;
+		}
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="leaflet-heat.js"></script>
+<script src="ResidentialNoiseComplaint.js"></script>
+<script>
+
+var map = L.map('map').setView([47.65, -122.338], 12);
+
+var tiles = L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+    attribution: ' <a href="http://stamen.com" title="Map tiles by">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>.  <a href="http://openstreetmap.org" title="Data by">OpenStreetMap</a>, <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
+}).addTo(map);
+
+map.options.maxZoom = 13
+map.options.minZoom = 11
+
+addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
+
+var heat = L.heatLayer(addressPoints, {minOpacity: .6, radius:4, blur:7}).addTo(map);
+
+var info = L.control({position: 'bottomleft'});
+
+info.onAdd = function (map) {
+	this._div = L.DomUtil.create('div', 'info');
+	this.update();
+	return this._div;
+};
+
+info.update = function () {
+	this._div.innerHTML =  ('4,322 total incidents');
+};
+info.addTo(map);
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,796 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Affordable Housing in Seattle</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script   src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<script src="http://labs.easyblog.it/maps/leaflet-search/src/leaflet-search.js"></script>
+</head>
+<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+
+.leaflet-container .leaflet-control-search {
+	position:relative;
+	float:left;
+	background:#fff;
+	color:black;
+	font-size: 20px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	background-color: rgba(255, 255, 255, 0.8);
+	z-index:1000;	
+	box-shadow: 0 1px 7px rgba(0,0,0,0.65);
+	margin-left: 10px;
+	margin-top: 10px;
+}
+.leaflet-control-search.search-exp {/*expanded*/
+	box-shadow: 0 1px 7px #999;
+	background: #fff;
+}
+.leaflet-control-search .search-input {
+	display:block;
+	float:left;
+	background: #fff;
+	border:1px solid #666;
+	border-radius:2px;
+	height:25px;
+	width: 400px;
+	padding:0 18px 0 2px;
+	margin:3px 0 3px 3px;
+}
+.leaflet-control-search.search-load .search-input {
+	background: url('') no-repeat center right #fff;
+}
+.leaflet-control-search.search-load .search-cancel {
+	visibility:hidden;
+}
+.leaflet-control-search .search-cancel {
+	display:block;
+	width:30px;
+	height:25px;
+	position:absolute;
+	right:22px;
+	margin:3px 0;
+	background: url('search-icon.png') no-repeat 0 -46px;
+	text-decoration:none;
+	filter: alpha(opacity=80);
+	opacity: 0.8;		
+}
+.leaflet-control-search .search-cancel:hover {
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+.leaflet-control-search .search-cancel span {
+	display:none;/* comment for cancel button imageless */
+	font-size:30px;
+	line-height:22px;
+	color:#ccc;
+	font-weight:bold;
+}
+.leaflet-control-search .search-cancel:hover span {
+	color:#aaa;
+}
+.leaflet-control-search .search-button {
+	display:block;
+	float:left;
+	width:30px;
+	height:30px;	
+	background: url('search-icon.png') no-repeat 4px 4px;
+	border-radius:4px;
+}
+.leaflet-control-search .search-button:hover {
+	background: url('search-icon.png') no-repeat 4px -20px;
+}
+.leaflet-control-search .search-tooltip {
+	position:absolute;
+	top:100%;
+	left:0;
+	float:left;
+	list-style: none;
+	padding-left: 0;
+	min-width:200px;
+	max-height:122px;
+	box-shadow: 1px 1px 6px rgba(0,0,0,0.4);
+	background-color: rgba(0, 0, 0, 0.25);
+	z-index:1010;
+	overflow-y:auto;
+	overflow-x:hidden;
+	cursor: pointer;
+}
+.leaflet-control-search .search-tip {
+	margin:2px;
+	padding:2px 4px;
+	display:block;
+	color:black;
+	background: #eee;
+	border-radius:.25em;
+	text-decoration:none;	
+	white-space:nowrap;
+	vertical-align:center;
+}
+.leaflet-control-search .search-tip-select,
+.leaflet-control-search .search-tip:hover,
+.leaflet-control-search .search-button:hover {
+	background-color: #fff;
+}
+.leaflet-control-search .search-alert {
+	cursor:pointer;
+	clear:both;
+	font-size:.75em;
+	margin-bottom:5px;
+	padding:0 .25em;
+	color:#e00;
+	font-weight:bold;
+	border-radius:.25em;
+}
+	.navbar {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 0;
+    border-radius: 4;
+    margin-bottom: 0;
+    font-size: 15px;
+    letter-spacing: 4px;
+	background-color: white;
+	font-family: segoe ui;
+	color: black;
+	}
+	.navbar-nav li a:link, li a:visited{
+	display: block;
+	background-color: black;
+	color: white;
+	text-align: center;
+	}
+	.navbar-nav li a:hover {
+	background-color: white;
+    color: black !important;
+	}
+	body {
+	background-color: ;
+	color: black;
+	font-family: segoe ui;
+	margin: 0;
+    padding: 0;
+	margin-left: auto; 
+	margin-right: auto;
+	}
+	
+	#container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+	font-family: segoe ui;
+	font-size: 1.3em;
+	}
+.select {
+  font-size: 20px;
+    position: absolute;
+    top: 7px;
+	margin-left: auto; 
+	margin-right: auto;
+    z-index: 33;
+	width: 100%;
+}
+.select select {
+  outline: none;
+  -webkit-appearance: none !important;
+  display: block;
+  padding: .6em .6em .6em .6em;
+  margin: 0;
+  transition: border-color 0.2s;
+  border: 4px solid #000;
+  border-radius: 4px;
+  text-align: center;
+  text-align-last:center; 
+  background: #fff;
+  color: #000;
+  line-height: normal;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: auto;
+}
+	.leaflet-popup-content{
+	text-align:center !important;
+	}
+	html, body {
+	height: 100%;
+	}
+
+</style>
+<body>
+
+<div id="map" style="width:100%;">
+</div>
+<script>
+var markerIcon = "https://api.tiles.mapbox.com/v3/marker/pin-m-marker+000.png"
+var data = [{
+	"loc": [47.607693, -122.316824],
+	"title": "621 Apartments",
+	"html": "<a style='color: black;' href=' ' target='_blank' ><b>621 Apartments</b></a><br>621 12th Ave<br>206-745-2524"
+}, {
+	"loc": [47.615542, -122.316813],
+	"title": "12th Ave. Arts",
+	"html": "<a style='color: black;' href='http://www.12avearts.org/' target='_blank' ><b>12th Ave. Arts</b></a><br>1620 12th Ave<br>206-329-7303"
+}, {
+	"loc": [47.617907, -122.30253],
+	"title": "1806 23rd Ave",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/1806-2/' target='_blank' ><b>1806 23rd Ave</b></a><br>1806 23rd Ave<br>866-997-9539"
+}, {
+	"loc": [47.61803, -122.316849],
+	"title": "1812 12th Ave",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/cal-park/' target='_blank' ><b>1812 12th Ave</b></a><br>1812 12th Ave<br>855-748-4173"
+}, {
+	"loc": [47.62108, -122.32524],
+	"title": "Alturra aPodments",
+	"html": "<a style='color: black;' href='http://apodment.com/capitol-hill-apodments/alturra/' target='_blank' ><b>Alturra aPodments</b></a><br>306 Summit Ave E<br>206-801-3570"
+}, {
+	"loc": [47.61728, -122.31684],
+	"title": "BASE Capitol Hill",
+	"html": "<a style='color: black;' href='http://www.karmaresidential.com/apply-now.html' target='_blank' ><b>BASE Capitol Hill</b></a><br>1728 12th Ave<br>425-773-0559"
+}, {
+	"loc": [47.614167, -122.31651],
+	"title": "Beryl",
+	"html": "<a style='color: black;' href='http://beryl.tarragon.com/' target='_blank' ><b>Beryl</b></a><br>1200 E Pike St<br>206-320-1200"
+}, {
+	"loc": [47.634663, -122.321126],
+	"title": "Broadway Building",
+	"html": "<a style='color: black;' href=' ' target='_blank' ><b>Broadway Building</b></a><br>1620 Broadway Ave E<br>844-205-3116"
+}, {
+	"loc": [47.61792, -122.316849],
+	"title": "Cal Park Studios",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/cal-park/' target='_blank' ><b>Cal Park Studios</b></a><br>1806 12th Avenue<br>855-748-4173"
+}, {
+	"loc": [47.619967, -122.31523],
+	"title": "Centro aPodments",
+	"html": "<a style='color: black;' href='http://apodment.com/capitol-hill-apodments/centro/' target='_blank' ><b>Centro aPodments</b></a><br>1304 E John St<br>206-801-3570"
+}, {
+	"loc": [47.613159, -122.316075],
+	"title": "The Citizen",
+	"html": "<a style='color: black;' href='http://www.citizenapartments.com/' target='_blank' ><b>The Citizen</b></a><br>1220 E Madison<br>206-621-8888"
+}, {
+	"loc": [47.620689, -122.323121],
+	"title": "Cortena",
+	"html": "<a style='color: black;' href='http://apodment.com/capitol-hill-apodments/cortena/' target='_blank' ><b>Cortena</b></a><br>227 Boylston Ave E<br>206-801-3570"
+}, {
+	"loc": [47.615202, -122.32241],
+	"title": "Cue Apartments",
+	"html": "<a style='color: black;' href='http://www.greystar.com/properties/cue-apartment-homes/13099' target='_blank' ><b>Cue Apartments</b></a><br>721 E Pine St<br>800-283-2987"
+}, {
+	"loc": [47.612977, -122.31981],
+	"title": "Evolve",
+	"html": "<a style='color: black;' href='http://liveatevolve.com/' target='_blank' ><b>Evolve</b></a><br>954 E Union St<br>206-328-4006"
+}, {
+	"loc": [47.622619, -122.317759],
+	"title": "Footprint 11th",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/eleventh/' target='_blank' ><b>Footprint 11th</b></a><br>422 11th Ave E<br>855-816-6234"
+}, {
+	"loc": [47.62423, -122.315504],
+	"title": "Ilaria",
+	"html": "<a style='color: black;' href='http://apodment.com/capitol-hill-apodments/ilaria/' target='_blank' ><b>Ilaria</b></a><br>1305 E Mercer<br>206-801-3570"
+}, {
+	"loc": [47.623417, -122.320988],
+	"title": "Joule Apartments",
+	"html": "<a style='color: black;' href='http://www.essexapartmenthomes.com/washington/seattle-area/seattle/joule' target='_blank' ><b>Joule Apartments</b></a><br>523 Broadway Ave E<br>866-543-3903"
+}, {
+	"loc": [47.61932, -122.32215],
+	"title": "Lexicon",
+	"html": "<a style='color: black;' href='http://lexiconseattle.com/' target='_blank' ><b>Lexicon</b></a><br>120 Harvard Ave E<br>206-325-7000"
+}, {
+	"loc": [47.619901, -122.31749],
+	"title": "LIV at East John",
+	"html": "<a style='color: black;' href='http://livseattle.com/' target='_blank' ><b>LIV at East John</b></a><br>1113 E John St<br>877-204-6402"
+}, {
+	"loc": [47.62263, -122.326539],
+	"title": "Local 418 Apartments",
+	"html": "<a style='color: black;' href='http://thelocal418.com/' target='_blank' ><b>Local 418 Apartments</b></a><br>418 Bellevue Ave E<br>206-334-6763"
+}, {
+	"loc": [47.62266, -122.32526],
+	"title": "Local 422 Apartments",
+	"html": "<a style='color: black;' href='http://www.thelocal422.com/' target='_blank' ><b>Local 422 Apartments</b></a><br>422 Summit Ave E<br>206-334-6763"
+}, {
+	"loc": [47.62029, -122.320865],
+	"title": "Lyric",
+	"html": "<a style='color: black;' href='http://www.thelyriccapitolhill.com/' target='_blank' ><b>Lyric</b></a><br>230 Broadway Ave E<br>800-648-3912"
+}, {
+	"loc": [47.614854, -122.311879],
+	"title": "Mad Flats",
+	"html": "<a style='color: black;' href='http://themadflats.com/' target='_blank' ><b>Mad Flats</b></a><br>1523 East Madison St<br>844-551-4961"
+}, {
+	"loc": [47.61929, -122.315569],
+	"title": "OneOne6",
+	"html": "<a style='color: black;' href='http://www.karmaresidential.com/apply-now.html' target='_blank' ><b>OneOne6</b></a><br>116 13th Ave E<br>425-773-0559"
+}, {
+	"loc": [47.614407, -122.328255],
+	"title": "Pine + Minor",
+	"html": "<a style='color: black;' href='http://www.pineminor.com/' target='_blank' ><b>Pine + Minor</b></a><br>1519 Minor Ave<br>855-982-9984"
+}, {
+	"loc": [47.620069, -122.3195],
+	"title": "Ramiro's Place",
+	"html": "<a style='color: black;' href='http://www.karmaresidential.com/apply-now.html' target='_blank' ><b>Ramiro's Place</b></a><br>200 10th Ave E<br>425-773-0559"
+}, {
+	"loc": [47.61466, -122.314282],
+	"title": "REO Flats",
+	"html": "<a style='color: black;' href='http://www.reoflats.com/' target='_blank' ><b>REO Flats</b></a><br>1515 14th Ave<br>844-746-9591"
+}, {
+	"loc": [47.62365, -122.322042],
+	"title": "Rubix",
+	"html": "<a style='color: black;' href='http://rubixapartments.com/' target='_blank' ><b>Rubix</b></a><br>515 Harvard Ave E<br>206-467-4846"
+}, {
+	"loc": [47.62322, -122.323952],
+	"title": "Stream Belmont",
+	"html": "<a style='color: black;' href='http://www.streambelmont.com/' target='_blank' ><b>Stream Belmont</b></a><br>500 Belmont Ave E<br>206-325-3663"
+}, {
+	"loc": [47.62447, -122.312661],
+	"title": "Stream Fifteen",
+	"html": "<a style='color: black;' href='http://www.streamfifteen.com/' target='_blank' ><b>Stream Fifteen</b></a><br>605 15th Ave E<br>206-999-2853"
+}, {
+	"loc": [47.615237, -122.327141],
+	"title": "Three20",
+	"html": "<a style='color: black;' href='http://www.equityapartments.com/washington/seattle-apartments/capitol-hill/three20-apartments.aspx' target='_blank' ><b>Three20</b></a><br>320 E Pine St<br>844-584-4084"
+}, {
+	"loc": [47.623137, -122.314191],
+	"title": "Yardhouse",
+	"html": "<a style='color: black;' href='http://www.yardhouseapartments.com/' target='_blank' ><b>Yardhouse</b></a><br>1406 E Republican St<br>206-623-5504"
+}, {
+	"loc": [47.598364, -122.313114],
+	"title": "1410 S. King St.",
+	"html": "<a style='color: black;' href='1410 S. King St.' target='_blank' ><b>1410 S. King St.</b></a><br>1410 S. King St.<br> "
+}, {
+	"loc": [47.6042, -122.31936],
+	"title": "Alder Flats",
+	"html": "<a style='color: black;' href='http://www.thealderflats.com/' target='_blank' ><b>Alder Flats</b></a><br>220 10th Ave<br>855-660-4810"
+}, {
+	"loc": [47.60189, -122.316821],
+	"title": "Anthem",
+	"html": "<a style='color: black;' href='http://anthem12.com/apartments/' target='_blank' ><b>Anthem</b></a><br>103 12th Ave<br>206-624-1133"
+}, {
+	"loc": [47.612932, -122.30342],
+	"title": "The Central",
+	"html": "<a style='color: black;' href='http://www.thecentralapartments.com/' target='_blank' ><b>The Central</b></a><br>2203 E Union St.<br> "
+}, {
+	"loc": [47.604499, -122.316811],
+	"title": "Decibel",
+	"html": "<a style='color: black;' href='http://anthem12.com/decibel/' target='_blank' ><b>Decibel</b></a><br>301 12th Ave.<br>206-624-1133"
+}, {
+	"loc": [47.61833, -122.308851],
+	"title": "Denny 18",
+	"html": "<a style='color: black;' href='http://denny18.com/' target='_blank' ><b>Denny 18</b></a><br>1823 18th Ave<br> "
+}, {
+	"loc": [47.60478, -122.319441],
+	"title": "Emerald 10",
+	"html": "<a style='color: black;' href='http://www.musemgmt.com/emerald-10/' target='_blank' ><b>Emerald 10</b></a><br>315 10th Ave<br>425-765-7611"
+}, {
+	"loc": [47.603569, -122.329448],
+	"title": "The Jefferson,500 12th Ave",
+	"html": "<a style='color: black;' href='http://capitolhillhousing.org/ourproperties/buildings/jeff.php' target='_blank' ><b>The Jefferson,500 12th Ave</b></a><br>206-204-8744<br> "
+}, {
+	"loc": [47.594549, -122.309269],
+	"title": "Hiawatha Artist Lofts",
+	"html": "<a style='color: black;' href='http://www.artspace.org/our-places/artspace-hiawatha-lofts' target='_blank' ><b>Hiawatha Artist Lofts</b></a><br>843 Hiawatha Place S<br>206-709-7611"
+}, {
+	"loc": [47.599276, -122.308411],
+	"title": "Pratt Park",
+	"html": "<a style='color: black;' href='http://www.legacyatprattpark.com/index.php' target='_blank' ><b>Pratt Park</b></a><br>1800 S Jackson St<br>877-317-2678"
+}, {
+	"loc": [47.604311, -122.318311],
+	"title": "Reverb",
+	"html": "<a style='color: black;' href='http://anthem12.com/reverb/' target='_blank' ><b>Reverb</b></a><br>1023 E Alder St<br>206-624-1133"
+}, {
+	"loc": [47.599719, -122.31023],
+	"title": "Solana aPodments",
+	"html": "<a style='color: black;' href='http://apodment.com/capitol-hill-apodments/solana/' target='_blank' ><b>Solana aPodments</b></a><br>310 17th Ave S<br>206-801-3570"
+}, {
+	"loc": [47.599267, -122.30968],
+	"title": "Squire Park Plaza",
+	"html": "<a style='color: black;' href='http://www.squireparkplaza.com/' target='_blank' ><b>Squire Park Plaza</b></a><br>1700 S Jackson Street<br>206-204-8746"
+}, {
+	"loc": [47.605668, -122.318151],
+	"title": "Terrazza aPodments",
+	"html": "<a style='color: black;' href='http://apodment.com/capitol-hill-apodments/terrazza/' target='_blank' ><b>Terrazza aPodments</b></a><br>413 11th Ave<br>206-801-3570"
+}, {
+	"loc": [47.613588, -122.332127],
+	"title": "9th & Pine Apartments",
+	"html": "<a style='color: black;' href='http://www.nineandpine.com/' target='_blank' ><b>9th & Pine Apartments</b></a><br>1601 9th Ave<br>206-623-1122"
+}, {
+	"loc": [47.620429, -122.33167],
+	"title": "Alley 24",
+	"html": "<a style='color: black;' href='http://www.alley24.com/' target='_blank' ><b>Alley 24</b></a><br>224 Pontius Ave N<br>855-982-2752"
+}, {
+	"loc": [47.619746, -122.347321],
+	"title": "Aperture on Fifth",
+	"html": "<a style='color: black;' href='http://www.apertureonfifth.com/' target='_blank' ><b>Aperture on Fifth</b></a><br>500 John St<br>844-920-2838"
+}, {
+	"loc": [47.600719, -122.3276],
+	"title": "Ascona Apartments",
+	"html": "<a style='color: black;' href=' ' target='_blank' ><b>Ascona Apartments</b></a><br>200 5th Avenue South<br>206-816-3339"
+}, {
+	"loc": [47.621091, -122.36059],
+	"title": "Avalon Queen Anne",
+	"html": "<a style='color: black;' href='http://www.avaloncommunities.com/washington/seattle-apartments/ava-queen-anne' target='_blank' ><b>Avalon Queen Anne</b></a><br>300 3rd Ave W<br>866-856-2705"
+}, {
+	"loc": [47.60575, -122.32072],
+	"title": "Barclay Broadway",
+	"html": "<a style='color: black;' href='http://barclaybroadway.net/' target='_blank' ><b>Barclay Broadway</b></a><br>412 Broadway<br>206-588-8600"
+}, {
+	"loc": [47.619672, -122.33751],
+	"title": "Boxcar",
+	"html": "<a style='color: black;' href='http://boxcarslu.com/' target='_blank' ><b>Boxcar</b></a><br>975 John St<br>206-467-1111"
+}, {
+	"loc": [47.622281, -122.330381],
+	"title": "The Cairns",
+	"html": "<a style='color: black;' href='http://www.essexapartmenthomes.com/washington/seattle-area/seattle/cairns' target='_blank' ><b>The Cairns</b></a><br>422 Yale Ave<br>866-927-0658"
+}, {
+	"loc": [47.61865, -122.346377],
+	"title": "The Century",
+	"html": "<a style='color: black;' href='http://www.thecenturyseattle.com/' target='_blank' ><b>The Century</b></a><br>101 Taylor Ave N<br>206-317-4214"
+}, {
+	"loc": [47.623297, -122.35511],
+	"title": "Expo",
+	"html": "<a style='color: black;' href='http://www.essexapartmenthomes.com/washington/seattle-area/seattle/expo' target='_blank' ><b>Expo</b></a><br>100 Republican St.<br>866-271-0726"
+}, {
+	"loc": [47.622102, -122.359503],
+	"title": "H2O Apartments",
+	"html": "<a style='color: black;' href='http://h2oseattle.com/' target='_blank' ><b>H2O Apartments</b></a><br>201 West Harrison<br>206-282-0400"
+}, {
+	"loc": [47.614695, -122.352675],
+	"title": "Joseph Arnold Lofts",
+	"html": "<a style='color: black;' href='http://www.thejoeseattle.com/' target='_blank' ><b>Joseph Arnold Lofts</b></a><br>2708 Elliot Ave<br>206-859-4500"
+}, {
+	"loc": [47.601693, -122.33134],
+	"title": "Quintessa",
+	"html": "<a style='color: black;' href='http://www.quintessaapts.com/' target='_blank' ><b>Quintessa</b></a><br>201 Yesler Way<br>206-535-1398"
+}, {
+	"loc": [47.622671, -122.33169],
+	"title": "Stack House",
+	"html": "<a style='color: black;' href='http://www.stackhouseapartments.com/' target='_blank' ><b>Stack House</b></a><br>420 Pontius Ave N<br>844-338-4905"
+}, {
+	"loc": [47.625748, -122.34495],
+	"title": "Stream Uptown",
+	"html": "<a style='color: black;' href='http://www.streamuptown.com/' target='_blank' ><b>Stream Uptown</b></a><br>708 6th Ave N<br>844-244-2901"
+}, {
+	"loc": [47.614443, -122.350345],
+	"title": "Walton Lofts",
+	"html": "<a style='color: black;' href='http://lifeatwalton.com/' target='_blank' ><b>Walton Lofts</b></a><br>2521 Western Ave<br>206-962-3573"
+}, {
+	"loc": [47.618235, -122.32916],
+	"title": "Equinox Apartments",
+	"html": "<a style='color: black;' href='http://equinoxapartments.com/' target='_blank' ><b>Equinox Apartments</b></a><br>1520 Eastlake<br>877-815-3051"
+}, {
+	"loc": [47.64179, -122.324682],
+	"title": "Franklin Studios",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/franklin/' target='_blank' ><b>Franklin Studios</b></a><br>2371 Franklin Ave E<br>855-205-6598"
+}, {
+	"loc": [47.731288, -122.292421],
+	"title": "Array",
+	"html": "<a style='color: black;' href='http://www.arrayapts.com/' target='_blank' ><b>Array</b></a><br>14027 Lake City Way NE<br>877-824-1118"
+}, {
+	"loc": [47.708567, -122.322997],
+	"title": "507 Northgate",
+	"html": "<a style='color: black;' href='http://www.507northgate.com/' target='_blank' ><b>507 Northgate</b></a><br>507 NE Northgate<br>866-800-1634"
+}, {
+	"loc": [47.708562, -122.322251],
+	"title": "525 at the Enclave",
+	"html": "<a style='color: black;' href='http://1715apartments.com/' target='_blank' ><b>525 at the Enclave</b></a><br>525 NE Northgate Way<br>206-623-2222"
+}, {
+	"loc": [47.674952, -122.31925],
+	"title": "Innovative Living @ Roosevelt",
+	"html": "<a style='color: black;' href='https://www.rentseattle.com/' target='_blank' ><b>Innovative Living @ Roosevelt</b></a><br>817 NE 64th St<br> "
+}, {
+	"loc": [47.676409, -122.317431],
+	"title": "Kavela",
+	"html": "<a style='color: black;' href='http://www.kavelaapartments.com/' target='_blank' ><b>Kavela</b></a><br>6521 Roosevelt Way NE<br>206-522-4600"
+}, {
+	"loc": [47.675218, -122.311972],
+	"title": "Roosevelt Townhomes",
+	"html": "<a style='color: black;' href='http://www.indigorealestate.com/contact.php' target='_blank' ><b>Roosevelt Townhomes</b></a><br>6313 15th Ave NE<br>206-230-9874"
+}, {
+	"loc": [47.675857, -122.31822],
+	"title": "Rooster",
+	"html": "<a style='color: black;' href='http://roosterapartments.com/' target='_blank' ><b>Rooster</b></a><br>910 NE 65th St<br>206-681-9294"
+}, {
+	"loc": [47.674167, -122.316721],
+	"title": "Square One",
+	"html": "<a style='color: black;' href='http://www.equityapartments.com/washington/seattle-apartments/roosevelt/square-one-apartments.aspx' target='_blank' ><b>Square One</b></a><br>1012 NE 63rd St<br>844-592-1888"
+}, {
+	"loc": [47.702539, -122.324972],
+	"title": "Thornton Place",
+	"html": "<a style='color: black;' href='http://thorntonplaceliving.com/' target='_blank' ><b>Thornton Place</b></a><br>308 NE Thornton Place<br>206-523-1111"
+}, {
+	"loc": [47.670872, -122.37952],
+	"title": "1715 Apartments",
+	"html": "<a style='color: black;' href='http://1715apartments.com/' target='_blank' ><b>1715 Apartments</b></a><br>1715 NW 58th St<br>206-289-0621"
+}, {
+	"loc": [47.6932, -122.353982],
+	"title": "8727 Phinney Ave N",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/phinney/' target='_blank' ><b>8727 Phinney Ave N</b></a><br>8727 Phinney Ave N<br>844-879-0894"
+}, {
+	"loc": [47.668687, -122.37437],
+	"title": "AvalonBallard",
+	"html": "<a style='color: black;' href='http://www.avaloncommunities.com/washington/seattle-apartments/ava-ballard' target='_blank' ><b>AvalonBallard</b></a><br>1400 NW Market St<br>866-960-6255"
+}, {
+	"loc": [47.675832, -122.387532],
+	"title": "Ballard Lofts",
+	"html": "<a style='color: black;' href='http://ballardpublic.com/' target='_blank' ><b>Ballard Lofts</b></a><br>6450 24th Ave. NW<br>206-467-1483"
+}, {
+	"loc": [47.670892, -122.386451],
+	"title": "Ballard on the Park",
+	"html": "<a style='color: black;' href='http://www.ballardonthepark.com/' target='_blank' ><b>Ballard on the Park</b></a><br>2233 NW 58th St<br>206-204-5400"
+}, {
+	"loc": [47.668632, -122.37221],
+	"title": "Broadstone Koi",
+	"html": "<a style='color: black;' href='http://www.greystar.com/properties/broadstone-koi-apartments/12277' target='_blank' ><b>Broadstone Koi</b></a><br>1139 NW Market St<br>844-284-7654"
+}, {
+	"loc": [47.724433, -122.34796],
+	"title": "Cambridge Apartments",
+	"html": "<a style='color: black;' href='http://www.bellwetherhousing.org/' target='_blank' ><b>Cambridge Apartments</b></a><br>13030 Linden Ave N<br>206-343-0237"
+}, {
+	"loc": [47.703627, -122.346471],
+	"title": "Cubix",
+	"html": "<a style='color: black;' href='http://cubixapartments.com/' target='_blank' ><b>Cubix</b></a><br>918 N 103rd St<br>206-782-9299"
+}, {
+	"loc": [47.690591, -122.35979],
+	"title": "Greenwood",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/greenwood/' target='_blank' ><b>Greenwood</b></a><br>143 NW 85th St<br>855-872-1938"
+}, {
+	"loc": [47.692189, -122.342431],
+	"title": "Midvale 4",
+	"html": "<a style='color: black;' href='http://www.marathonpropmgmt.com/' target='_blank' ><b>Midvale 4</b></a><br>8555 Midvale Ave N.<br> "
+}, {
+	"loc": [47.69332, -122.353982],
+	"title": "Phinney Ave Studios",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/phinney/' target='_blank' ><b>Phinney Ave Studios</b></a><br>8731 Phinney Ave N<br>844-879-0894"
+}, {
+	"loc": [47.603569, -122.329448],
+	"title": "Positano",
+	"html": "<a style='color: black;' href='http://apodment.com/uw-area-apodments/positano/' target='_blank' ><b>Positano</b></a><br>3640 Woodland Park<br>206-801-3570"
+}, {
+	"loc": [47.651657, -122.34257],
+	"title": "Ray Apartments",
+	"html": "<a style='color: black;' href='http://www.greystar.com/properties/ray-apartments/13354' target='_blank' ><b>Ray Apartments</b></a><br>3636 Stone Way N<br>206-632-9000"
+}, {
+	"loc": [47.652, -122.341381],
+	"title": "Ray East",
+	"html": "<a style='color: black;' href='http://www.greystar.com/properties/ray-apartments/13354' target='_blank' ><b>Ray East</b></a><br>3651 Interlake Ave N<br>206-632-9000"
+}, {
+	"loc": [47.603569, -122.329448],
+	"title": "Smith & Burns",
+	"html": "<a style='color: black;' href='https://smithandburnsseattle.com/' target='_blank' ><b>Smith & Burns</b></a><br>1321 N 45thSt.<br>206-829-5018"
+}, {
+	"loc": [47.6477286,-122.3784743],
+	"title": "Slate Apartments",
+	"html": "<a style='color: black;' href='http://www.slateliving.com/' target='_blank' ><b>Slate Apartments</b></a><br>3040 17th Ave W<br>206-397-3341"
+}, {
+	"loc": [47.731499, -122.347699],
+	"title": "Tressa",
+	"html": "<a style='color: black;' href='http://www.tressaapartments.com/' target='_blank' ><b>Tressa</b></a><br>14100 Linden Ave N<br>877-801-7298"
+}, {
+	"loc": [47.6477286, -122.3784743],
+	"title": "Velo Apartments",
+	"html": "<a style='color: black;' href='http://www.greystar.com/search/name/velo' target='_blank' ><b>Velo Apartments</b></a><br>3653 Woodland Park<br>206-651-3996"
+}, {
+	"loc": [47.6529, -122.355611],
+	"title": "Vibe Fremont",
+	"html": "<a style='color: black;' href='http://vibefremont.com/' target='_blank' ><b>Vibe Fremont</b></a><br>3601 Greenwood Ave N<br>206-812-1109"
+}, {
+	"loc": [47.55942, -122.285989],
+	"title": "Angeline",
+	"html": "<a style='color: black;' href='http://www.angelineapartments.com/' target='_blank' ><b>Angeline</b></a><br>4801 Rainier Ave S<br>206-452-4182"
+}, {
+	"loc": [47.577208, -122.297347],
+	"title": "Artspace Mt. Baker Lofts",
+	"html": "<a style='color: black;' href='http://www.artspace.org/our-places/artspace-mt-baker-lofts' target='_blank' ><b>Artspace Mt. Baker Lofts</b></a><br>2915 Rainier Ave S<br>206-453-4423"
+}, {
+	"loc": [47.560065, -122.291437],
+	"title": "CityLine",
+	"html": "<a style='color: black;' href='http://www.udr.com/seattle-apartments/columbia-city/cityline/' target='_blank' ><b>CityLine</b></a><br>4740 32nd Ave S<br>855-342-4174"
+}, {
+	"loc": [47.573239, -122.294337],
+	"title": "Claremont Apts",
+	"html": "<a style='color: black;' href='http://theclaremontapartments.com/living-at-the-claremont.html' target='_blank' ><b>Claremont Apts</b></a><br>3333 Rainier Ave S<br>206-725-3005"
+}, {
+	"loc": [47.589366, -122.300172],
+	"title": "Colman School Apts",
+	"html": "<a style='color: black;' href='http://www.quantumms.com/seattle-wa/urban-league-village-apartments' target='_blank' ><b>Colman School Apts</b></a><br>1501 25th Ave S<br>206-329-0109"
+}, {
+	"loc": [47.570429, -122.290979],
+	"title": "Dakota",
+	"html": "<a style='color: black;' href='http://www.thedakotaseattle.com/' target='_blank' ><b>Dakota</b></a><br>3642 33rd Ave S<br>206-316-2973"
+}, {
+	"loc": [47.578838, -122.310761],
+	"title": "Denning",
+	"html": "<a style='color: black;' href='http://thedenning.com/' target='_blank' ><b>Denning</b></a><br>2721 17th Ave S<br>206-653-4088"
+}, {
+	"loc": [47.557012, -122.28572],
+	"title": "Greenhouse",
+	"html": "<a style='color: black;' href='http://www.esring.com/greenhouse-apts' target='_blank' ><b>Greenhouse</b></a><br>3701 S Hudson Street<br>855-332-6286"
+}, {
+	"loc": [47.586549, -122.317229],
+	"title": "Holgate Apts",
+	"html": "<a style='color: black;' href='http://holgate12.com/' target='_blank' ><b>Holgate Apts</b></a><br>1814 12th Ave S<br>206-769-5223"
+}, {
+	"loc": [47.537022, -122.27997],
+	"title": "Othello Station South",
+	"html": "<a style='color: black;' href='http://www.thestationatothellopark.com/' target='_blank' ><b>Othello Station South</b></a><br>4219 S Othello St<br>206-782-8466"
+}, {
+	"loc": [47.663009, -122.3207],
+	"title": "47+7 Sustainable Living",
+	"html": "<a style='color: black;' href='http://www.47and7.com/' target='_blank' ><b>47+7 Sustainable Living</b></a><br>4558 7th Ave NE<br>206-429-8123"
+}, {
+	"loc": [47.661843, -122.316634],
+	"title": "Bridges at 11th",
+	"html": "<a style='color: black;' href='http://www.bridgesat11th.com/' target='_blank' ><b>Bridges at 11th</b></a><br>4529 11th Ave NE<br>206-569-5416"
+}, {
+	"loc": [47.667829, -122.31412],
+	"title": "Brooklyn Boutique Apartments",
+	"html": "<a style='color: black;' href='http://www.g2seattle.com/' target='_blank' ><b>Brooklyn Boutique Apartments</b></a><br>5246 Brooklyn Ave NE<br> "
+}, {
+	"loc": [47.65743, -122.315571],
+	"title": "Identity (Building &quot;&quot;D&quot;&quot;)",
+	"html": "<a style='color: black;' href='http://www.identityseattle.com/' target='_blank' ><b>Identity (Building &quot;&quot;D&quot;&quot;)</b></a><br>4119 12th Ave NE<br>206-259-5926"
+}, {
+	"loc": [47.567087, -122.317195],
+	"title": "Identity (Building &quot;&quot;I&quot;&quot;)",
+	"html": "<a style='color: black;' href='http://www.identityseattle.com/' target='_blank' ><b>Identity (Building &quot;&quot;I&quot;&quot;)</b></a><br>4106 12th Ave<br>206-259-5926"
+}, {
+	"loc": [47.667609, -122.313],
+	"title": "Muriels Landing",
+	"html": "<a style='color: black;' href='http://murielslanding.com/' target='_blank' ><b>Muriels Landing</b></a><br>5240 University Way NE<br>206-517-4021"
+}, {
+	"loc": [47.66215, -122.319595],
+	"title": "Lightbox",
+	"html": "<a style='color: black;' href='http://www.udr.com/seattle-apartments/downtown-seattle/lightbox/' target='_blank' ><b>Lightbox</b></a><br>4545 8th Ave NE<br>866-878-0546"
+}, {
+	"loc": [47.659259, -122.342285],
+	"title": "The Noble",
+	"html": "<a style='color: black;' href='http://www.thenoblewallingford.com/' target='_blank' ><b>The Noble</b></a><br>4301 Stone Way<br>206-577-3450"
+}, {
+	"loc": [47.660872, -122.340696],
+	"title": "Smith & Burns",
+	"html": "<a style='color: black;' href='http://smithandburnsseattle.com/' target='_blank' ><b>Smith & Burns</b></a><br>4455 Interlake Ave N<br>206-829-5044"
+}, {
+	"loc": [47.664305, -122.30552],
+	"title": "The Sophie Studios",
+	"html": "<a style='color: black;' href='http://www.offcampusresidences.com/properties/474321stavenesophie.html' target='_blank' ><b>The Sophie Studios</b></a><br>4743 21st Ave NE<br>206-403-1467"
+}, {
+	"loc": [47.661849, -122.32072],
+	"title": "Strada aPodments",
+	"html": "<a style='color: black;' href='http://apodment.com/uw-area-apodments/strada/' target='_blank' ><b>Strada aPodments</b></a><br>4516 7th Ave NE<br>206-801-3570"
+}, {
+	"loc": [47.65641, -122.320891],
+	"title": "Studio 7 Apartments",
+	"html": "<a style='color: black;' href='http://pacificliving.com/studio-7/' target='_blank' ><b>Studio 7 Apartments</b></a><br>4029 7th Ave NE<br>855-224-3438"
+}, {
+	"loc": [47.659759, -122.320881],
+	"title": "Trovere aPodments",
+	"html": "<a style='color: black;' href='http://apodment.com/uw-area-apodments/trovere/' target='_blank' ><b>Trovere aPodments</b></a><br>4309 7th Ave NE<br>206-801-3570"
+}, {
+	"loc": [47.662079, -122.33367],
+	"title": "Wallingford Studios",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/wallingford/' target='_blank' ><b>Wallingford Studios</b></a><br>4516 Meridian Ave N<br>877-257-7208"
+}, {
+	"loc": [47.656973, -122.342411],
+	"title": "Wally Apartments",
+	"html": "<a style='color: black;' href='http://www.mppartnership.net/the_wally' target='_blank' ><b>Wally Apartments</b></a><br>4111 Stone Way N<br>206-623-1275"
+}, {
+	"loc": [47.660239, -122.31972],
+	"title": "Venetia",
+	"html": "<a style='color: black;' href='http://apodment.com/uw-area-apodments/venetia/' target='_blank' ><b>Venetia</b></a><br>4324 8th Ave NE<br>206-801-3570"
+}, {
+	"loc": [47.56011, -122.386791],
+	"title": "4730 California",
+	"html": "<a style='color: black;' href='http://4730ca.com/' target='_blank' ><b>4730 California</b></a><br>4730 California Ave SW<br>206-632-4730"
+}, {
+	"loc": [47.561087, -122.38441],
+	"title": "Altamira Apartments",
+	"html": "<a style='color: black;' href='http://www.altamiraapartments.com/' target='_blank' ><b>Altamira Apartments</b></a><br>4100 SW Alaska St<br>206-937-8439"
+}, {
+	"loc": [47.556799, -122.38688],
+	"title": "Blake",
+	"html": "<a style='color: black;' href='http://theblakeapartments.com/index.php' target='_blank' ><b>Blake</b></a><br>5020 California Ave SW<br>206-935-3435"
+}, {
+	"loc": [47.559759, -122.382881],
+	"title": "Broadstone Sky",
+	"html": "<a style='color: black;' href='http://broadstonesky.com/' target='_blank' ><b>Broadstone Sky</b></a><br>4745 40th Ave SW<br>844-367-3017"
+}, {
+	"loc": [47.579728, -122.386569],
+	"title": "Element 42",
+	"html": "<a style='color: black;' href='http://www.element42apts.com/' target='_blank' ><b>Element 42</b></a><br>2622 California Ave SW<br>206-935-3810"
+}, {
+	"loc": [47.564107, -122.37522],
+	"title": "Footprint- Avalon Studios",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/avalon-i/' target='_blank' ><b>Footprint- Avalon Studios</b></a><br>3266 SW Avalon Way<br>855-751-8538"
+}, {
+	"loc": [47.561476, -122.362881],
+	"title": "Footprint Delridge",
+	"html": "<a style='color: black;' href='http://liveatfootprint.com/properties/delridge/' target='_blank' ><b>Footprint Delridge</b></a><br>4546 Delridge Way SW<br>855-412-3708"
+}, {
+	"loc": [47.548941, -122.387211],
+	"title": "Fauntleroy Lofts",
+	"html": "<a style='color: black;' href='http://fauntleroylofts.com/' target='_blank' ><b>Fauntleroy Lofts</b></a><br>5949 California Ave SW<br> "
+}, {
+	"loc": [47.560918, -122.38677],
+	"title": "Junction 47",
+	"html": "<a style='color: black;' href='http://www.equityapartments.com/washington/seattle-apartments/west-seattle/junction-47-apartments.aspx' target='_blank' ><b>Junction 47</b></a><br>4700 California Ave SW<br>844-611-1787"
+}, {
+	"loc": [47.56122, -122.38006],
+	"title": "The Link Apartments",
+	"html": "<a style='color: black;' href='http://www.linkapts.com/' target='_blank' ><b>The Link Apartments</b></a><br>4550 38th Ave SW<br>206-937-5465"
+}, {
+	"loc": [47.560141, -122.385541],
+	"title": "The Mural Apartments",
+	"html": "<a style='color: black;' href='http://www.muralapts.com/' target='_blank' ><b>The Mural Apartments</b></a><br>4727 42nd Ave SW<br>206-935-0676"
+}, {
+	"loc": [47.56187, -122.377449],
+	"title": "Nova Apartments",
+	"html": "<a style='color: black;' href='http://www.novaseattle.com/' target='_blank' ><b>Nova Apartments</b></a><br>4600 36th Ave SW<br>844-439-8491"
+}, {
+	"loc": [47.5627, -122.38546],
+	"title": "Oregon 42",
+	"html": "<a style='color: black;' href='http://www.oregon42.com/' target='_blank' ><b>Oregon 42</b></a><br>4502 42nd Ave SW<br>877-268-3086"
+}, {
+	"loc": [47.647851, -122.37884],
+	"title": "Slate Apartments",
+	"html": "<a style='color: black;' href='http://www.slateliving.com/' target='_blank' ><b>Slate Apartments</b></a><br>3040 17th Ave W<br>206-397-3341"
+}, {
+	"loc": [47.561076, -122.382131],
+	"title": "Spruce",
+	"html": "<a style='color: black;' href='http://liveatspruce.com/' target='_blank' ><b>Spruce</b></a><br>3922 SW Alaska St<br>855-997-6603"
+}, {
+	"loc": [47.54172, -122.387311],
+	"title": "Viridian Apartments",
+	"html": "<a style='color: black;' href='http://www.viridianseattle.com/' target='_blank' ><b>Viridian Apartments</b></a><br>6917 California Ave SW<br> "
+}, {
+	"loc": [47.564032, -122.374401],
+	"title": "Marq West Seattle",
+	"html": "<a style='color: black;' href='http://www.marqwestseattle.com/' target='_blank' ><b>Marq West Seattle</b></a><br>3261 SW Avalon Way<br>844-336-0057"
+}, {
+	"loc": [47.567098, -122.3654],
+	"title": "Youngstown Flats",
+	"html": "<a style='color: black;' href='http://www.youngstownflats.com/' target='_blank' ><b>Youngstown Flats</b></a><br>4040 26th Ave SW<br>855-815-3807"
+}];
+var osmUrl = 'http://tile.stamen.com/toner/{z}/{x}/{y}.png';
+var attrb ='Map data © <a href="http://www.openstreetmap.org"style="color:black">OpenStreetMap</a> contributors, Map by <a href="index.html" style="color:black" >Harry Maher</a>, Map tiles by <a href="http://www.stamen.com"style="color:black">Stamen Design</a>';
+
+var blackIcon = L.icon({
+    iconUrl: 'https://api.tiles.mapbox.com/v3/marker/pin-m-marker+000.png',
+	iconAnchor:   [15, 0],
+});
+
+var osmStamen = new L.TileLayer(osmUrl, {"maxZoom": 18, "attribution": attrb});
+var markersLayer = new L.LayerGroup();	//layer contain searched elements
+		////////////populate map with markers from sample data
+	for(i in data) {
+		var title = data[i].title;	//value searched
+		var	loc = data[i].loc;		//position found
+		var	html = data[i].html;    //tooltip done
+		var	marker = new L.Marker(new L.latLng(loc), {icon: blackIcon});
+		marker.bindPopup(html);
+		markersLayer.addLayer(marker);
+		//console.log(html);
+	}
+var map = new L.map('map', {"zoom": 14, "center":[47.615202, -122.32241], 		scrollWheelZoom: false, "layers":[osmStamen, markersLayer]});
+//var controlSearch = new L.Control.Search({"layer": markersLayer, "initial": true, "circleLocation": false, "position":'topright',});
+/*search isn't super useful herecontrolSearch
+controlSearch.on('search_locationfound', function(e) {
+            e.layer.openPopup().openOn(map);
+    }).on('search_collapsed', function(e) {
+            markersLayer.resetStyle(layer);
+    });
+	map.addControl(controlSearch);*/
+
+</script>
+
+</body>
+</html>

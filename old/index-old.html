@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>rain city maps</title>
+  <link rel="icon" type="image/ico" href="drop.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
+  <style>
+
+/*wrappers */
+	
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #41b6c4;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    letter-spacing: 3px;
+
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+    text-align: center;
+    color:#225ea8;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color:#225ea8;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #41b6c4;
+    background: #225ea8;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+ }
+
+
+    li, ul {
+    color:#225ea8;
+}
+
+    #logotext{
+    position: absolute;
+    left: 160px;
+    top: 100px;
+    text-decoration: none !important;
+    letter-spacing: .5em;
+    font-size: 1.3em;
+}
+
+
+/*adjust to screen size*/
+@media screen and (min-width: 0px) and (max-width: 767px) {
+    #smallscreennav{
+        display: block !important;
+    }
+   /*show phone menu for small screens*/
+}
+
+@media screen and (min-width:768px) {
+    #smallscreennav{
+	display:none !important;
+    }
+
+    #wrapper {
+        padding-left: 250px;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+}
+
+
+/* body stuff */
+	body {
+	background-color: ;
+	color: #225ea8;
+	font-family: segoe ui;
+	}
+	
+	#container{
+	margin-left: auto;
+	margin-right: auto;
+	width: 85%;
+	}
+	.text{
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 650px;
+	font-family: segoe ui;
+	font-size: 1.1em;
+	}
+</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id ="smallscreennav">
+
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand" href="index.html" style="font-size: 2.0em; letter-spacing: 4px;color: #225ea8">rain city maps</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+<li><a href="index.html">home</a></li>
+        	<li><a href="#about">about</a></li>
+        	<li><script type="text/javascript"><!--
+// Email obfuscator script 2.1 by Tim Williams, University of Arizona
+// Random encryption key feature by Andrew Moulden, Site Engineering Ltd
+// This code is freeware provided these four comment lines remain intact
+// A wizard to generate this code is at http://www.jottings.com/obfuscator/
+{ coded = "l5VytVoHC5B8@AC5VI.tjC"
+  key = "qytTKi374sdMWR1IpQgJ65GHo9ZVEFO8mr2eXfBbAnczwvj0xYPLDhClNukSUa"
+  shift=coded.length
+  link=""
+  for (i=0; i<coded.length; i++) {
+    if (key.indexOf(coded.charAt(i))==-1) {
+      ltr = coded.charAt(i)
+      link += (ltr)
+    }
+    else {     
+      ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
+      link += (key.charAt(ltr))
+    }
+  }
+document.write("<a href='mailto:"+link+"'>contact</a>")
+}
+//--></script></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</div>
+
+
+<div id="wrapper">
+
+        <div id="sidebar-wrapper">
+		<ul class="sidebar-nav">
+                <a href="index.html" style="color:#225ea8; text-decoration:none;"><img src="logo.svg" alt="logo" id="logo" style="height:250px;"> 
+			<span id="logotext">rain city maps</span>
+		</a>
+		<li><a href="index.html">home&nbsp;</a></li>
+        	<li><a href="#about">about&nbsp;</a></li>
+        	<li><a href="">
+		<script type="text/javascript">
+		document.write("<a href='mailto:"+link+"'>contact&nbsp</a>")
+		</script>
+</a></li>
+
+	     </ul>
+
+<footer class="container-fluid bg-4 text-center" style="background-color: #225ea8; color:#7fcdbb; width: 100%; position: absolute; bottom: 0px; height:60px; "><br>
+  <p><a style="color:#7fcdbb" href="http://harrymaher.ga/" target="_blank">harry maher</a> - 2016 - <a style="color:#7fcdbb" href="http://harrymaher.ga/contact.html" target="_blank">contact</a></p> 
+</footer>
+	</div>
+   
+<div id="page-content-wrapper">
+ <div class="container-fluid">
+   <div class="row">
+    <div class="col-lg-12">
+
+    <img src = "http://uploads.visitseattle.org/2015/03/VisitSeattle_WSCC_Map_0613-900x600.png" alt="Image of map, click the image to open the map in a new window." class="img-responsive" style="margin-left: auto; margin-right: auto; max-height: 400px;"> 
+    <p></p>
+
+    <div class="text">
+    <div class="col-md-8"><a href="index.html"><h3 style="display:inline">this is where the title goes</h3></a></div>  <div class="col-md-4">Maybe Thursday, 2016</div>
+
+    <div class="col-xs-12">
+    <p>
+    I will put maps of Seattle here. Maps maps maps!I will put maps of Seattle here. Maps maps maps! I will put maps of Seattle here. Maps maps maps! I will put maps of Seattle here. Maps maps maps!
+    </p>
+    <p>
+    I will put maps of Seattle here. Maps maps maps!I will put maps of Seattle here. Maps maps maps!
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+
+	<div class="row">
+    <div class="col-lg-12">
+
+    <img src ="logo.svg" id="about" alt="SVG of logo." class="img-responsive" style="margin-left: auto; margin-right: auto; max-height: 400px;"> 
+    <p></p>
+
+    <div class="text">
+    <div class="col-xs-6"><a href="#about"><h3 style="display:inline">about</h3></a></div>  <div class="col-xs-6" style="text-align: right;" >#0: June 11, 2016</div>
+
+    <div class="col-xs-12">
+    <p>
+	<br>
+	This site is comprised of a collection of Seattle-related maps. It was created by a recent <a href="http://harrymaher.ga/" style="text-decoration:show" target="_blank"><u>transplant</u></a> who wants to learn about Seattle. Rain city maps promises to deliver a new and interesting map (at least) every Friday with a short description and links to legit sources.
+    </p>
+	<p>
+	We're open to submissions of interesting, original, Seattle-related content.
+	<script type="text/javascript"> document.write("<a href='mailto:"+link+"'>Contact</a>")</script> us with any relevant questions.
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+  
+
+</div>
+</div>
+</div>
+</body>
+</html>

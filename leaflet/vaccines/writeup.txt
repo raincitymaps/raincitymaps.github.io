@@ -1,0 +1,14 @@
+Vaccination Rates At Public Elementary Schools
+vaccination rates at public elementary schools
+
+This map shows the percentages of kids with all required vaccinations in Seattle public elementary schools by <a href="https://www.seattleschools.org/cms/one.aspx?portalId=627&pageId=665322" target="_blank">attendance areas</a> and schools for the 2015-2016 school year.
+<br><br>
+For point of reference, studies say immunization rates should be anywhere from above <a href="http://jama.jamanetwork.com/article.aspx?articleid=395057" target="_blank">80%</a> to above <a href="http://cid.oxfordjournals.org/content/52/7/911.full" target="_blank">95%</a> for herd immunity to prevent spread of disease. This is, of course, vaccine dependent, but it's sort of insane that no schools in Seattle have 95% of students completely vaccinated.  The worst elementary school represented on this map is Salmon Bay with only 61.6% of kids completely vaccinated. Meanwhile, the worst public school is the Seattle World School with only 27.5% of kids completely vaccinated, but it's a special case as it's a school made up of 100% immigrants and it's a middle/high school so it's not represented here.
+The notoriously alternative Nova and Center School are other high schools that also have absymal rates of 63.6% and 70.6% respectively.
+<br><br>
+There is absolutely no reason for why Seattle kids should have lower rates of vaccinations than kids in <a href="http://kuow.org/post/seattle-kids-have-lower-polio-vaccination-rate-rwanda" target="_blank">developing countries</a>. 
+Parents' fears of autism or whatever else <a href="http://www.nejm.org/doi/full/10.1056/NEJMsa0806477#t=article">have been shown to be completley unfounded</a>. I think <a href="http://www.gatesfoundation.org/What-We-Do/Global-Development/Vaccine-Delivery" target="_blank">Bill</a> would be ashamed of you. For shame.
+<br><br>
+Find your school's immunization rates <a href="https://data.wa.gov/Health/All-students-kindergarten-through-12th-grade-immun/ie96-cgrn" target="_blank">here</a>
+
+

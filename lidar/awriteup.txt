@@ -1,0 +1,12 @@
+smith tower according to lidar
+
+"blah blah blah space needle blah blah" - tourists who have never heard of the tallest building west of the mississippi when built in 1914 -- <a href = "https://en.wikipedia.org/wiki/Smith_Tower">smith tower</a>
+<br>
+this is the smith tower according to lidar. this is a technology that shoots lasers at the earth from satellites to get high res elevation datasets. it's also used to make a sort of <a href="https://www.flickr.com/photos/72128514@N04/sets/72157629420634535/">art</a> that's sort of reminiscent of <a href="https://www.google.com/search?q=seurat+pointillism">pointillism</a>
+
+anyone can google that smith tower is 500.95 ft tall, but someone with lidar dataset can tell you that the pyramid itself at the top adds around 84 feet to the structure. or that the part protruding next to the tower is 30 feet high. fyi.
+
+<small>source:
+<a href="http://pugetsoundlidar.ess.washington.edu/lidardata/index.html"> puget sound lidar consortium</a>
+<small>*click and drag the slider. the slider wont appear if you're using internet explorer or some other outdated browser. if so, update to firefox or chrome.</small></small>
+ 

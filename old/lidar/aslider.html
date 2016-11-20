@@ -1,0 +1,64 @@
+<html>
+<style>
+div#preload {display: none; }
+</style>
+<body>
+<div id="range"><img src='imgs_2.jpg' style="width:600px;"></div>
+<input type="range" min="2" max="79" value="0" step="1" style="width:600px;" oninput="showValue(this.value)" />
+
+<script type="text/javascript">
+function showValue(newValue)
+{
+	if(newValue > 40){
+	newValue = newValue - 39
+	};
+	document.getElementById("range").innerHTML='<img src= "imgs_'+ newValue +'.jpg" style="width:600px;">';
+}
+</script>
+
+<div id="preload">
+   <img src="imgs_2.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_3.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_4.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_5.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_6.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_7.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_8.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_9.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_10.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_11.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_12.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_13.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_14.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_15.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_16.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_17.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_18.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_19.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_20.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_21.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_22.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_23.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_24.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_25.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_26.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_27.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_28.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_29.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_30.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_31.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_32.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_33.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_34.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_35.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_36.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_37.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_39.jpg" width="1" height="1" alt="Image" />
+   <img src="imgs_40.jpg" width="1" height="1" alt="Image" />  
+   
+</div>
+   
+
+
+</body>
+</html>

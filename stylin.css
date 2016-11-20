@@ -89,10 +89,14 @@
 
 /*adjust to screen size*/
 @media screen and (min-width: 0px) and (max-width: 767px) {
+	/*show phone menu for small screens*/
     #smallscreennav{
         display: block !important;
     }
-   /*show phone menu for small screens*/
+	/*hide the header map for small screens*/
+	.headermap{
+		display: none !important;
+	}
 }
 
 @media screen and (min-width:768px) {
@@ -132,15 +136,9 @@
 	margin-right: auto;
 	max-width: 650px;
 	font-family: segoe ui;
-	font-size: 1.1em;
-	}
-	.text a {
-	color: #41b6c4 !important;
-	}
-	.text h3{
-	color: #225ea8 !important; 
 	}
 	.btn{
 	background-color: white;
 		
 	}
+	

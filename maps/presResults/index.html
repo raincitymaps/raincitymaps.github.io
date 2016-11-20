@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Trump Voters in King County</title>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/0.7.7/leaflet.css" />
+
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255, 1.0);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+			text-align: right;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+
+	<script src="https://cdn.jsdelivr.net/leaflet/0.7.7/leaflet.js"></script>
+	<script type="text/javascript" src="presResults2.js"></script>
+	<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
+	<script type="text/javascript">
+	//this is just some code I found to put in a comma sep for the 1,000's place to help readability
+	function addCommas(nStr){	
+		nStr += '';
+		x = nStr.split('.');
+		x1 = x[0];
+		x2 = x.length > 1 ? '.' + x[1] : '';
+		var rgx = /(\d+)(\d{3})/;
+		while (rgx.test(x1)) {
+			x1 = x1.replace(rgx, '$1' + ',' + '$2');
+		}
+		return x1 + x2;
+	}
+
+		
+		
+		var featurs = new L.LayerGroup();
+		var featuresPerPer = new L.LayerGroup();
+		var population = new L.LayerGroup();
+		
+		var map = L.map('map',{
+		center: [47.615, -122.3321],
+		zoom: 11,
+		scrollWheelZoom: false
+		});
+
+		L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+		}).addTo(map);
+
+
+		// control that shows state info on hover
+		var info = L.control();
+
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+
+		info.update = function (props) {
+			this._div.innerHTML =  (props ?
+				'<table><tr><td> Trump Votes:</td><td>'+ props.Donald_J_T +' ('+ Math.round(100*props.PctTrump)/100 +'%)</td></tr><tr><td> Clinton Votes:</td><td>' + props.Hillary_Cl +' ('+ Math.round(100*props.pctClinton)/100 +'%)</td></tr><tr><td> Stein Votes:</td><td>'+ props.Jill_Stein +' ('+ Math.round(100*props.PctStein)/100 +'%)</td></tr><tr><td> Johnson Votes:</td><td>'+ props.Gary_Johns +' ('+ Math.round(100*props.PctJohnson)/100 +'%)</td></tr><tr><td> Write-in Votes:</td><td>'+ props.WriteIn +' ('+ Math.round(100*props.PctWritein)/100 +'%)</td></tr> </table>'
+				: 'Hover over an election precinct');
+		};
+
+		info.addTo(map);
+		var baseLayers = {
+			"<b>Features</b>": featurs,
+			"<b>Features per 10,000 Residents</b>": featuresPerPer,
+		};
+		var overlays = {
+		};
+		//removed because for number of something choropleth isn't the best. it's just for rates
+		//L.control.layers(baseLayers, overlays, {position: 'bottomleft', collapsed: false}).addTo(map);
+
+		
+		// get color depending on feature number 
+		function getColor(d) {
+			return d > 71? '#3288bd' :
+			       d > 44  ? '#66c2a5' :
+			       d > 29  ? '#abdda4' :
+			       d > 20  ? '#e6f598' :
+			       d > 16   ? '#fee08b' :
+			       d > 13  ? '#fdae61' :
+			       d > 8   ? '#f46d43' :
+			               '#d53e4f';
+		}
+		// get color depending on features per 10000 persons
+		function getColor3(d) {
+			return d > 65? '#d53e4f' :
+			       d > 50  ? '#f46d43' :
+			       d > 30  ? '#fdae61' :
+			       d > 20  ? '#fee08b' :
+			       d > 15   ? '#e6f598' :
+			       d > 10  ? '#abdda4' :
+			       d > 5   ? '#66c2a5' :
+			               '#3288bd';
+		}
+
+		function style(feature) {
+			return {
+				weight: 1,
+				opacity: .7,
+				color: 'white',
+				fillOpacity: 0.7,
+				fillColor: getColor(feature.properties.PctTrump)
+			};
+		}
+		
+		function style3(feature) {
+			return {
+				weight: 1,
+				opacity: .5,
+				color: 'white',
+				fillOpacity: 0.7,
+				fillColor: getColor3(feature.properties.PctTrump)
+			};
+		}
+		
+		function highlightFeature(e) {
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 5,
+				color: '#666',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+
+			info.update(layer.feature.properties);
+		}
+
+		var geojson;
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			info.update();
+		}
+		function resetHighlight3(e) {
+			geojson3.resetStyle(e.target);
+			info.update();
+		}
+
+		function onEachFeature(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight,
+				click: highlightFeature
+			});
+		}
+		function onEachFeature3(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight3,
+				click: highlightFeature
+			});
+		}
+
+		geojson = L.geoJson(hoods, {
+			style: style,
+			onEachFeature: onEachFeature
+		}).addTo(featurs);
+
+		geojson3 = L.geoJson(hoods, {
+			style: style3,
+			onEachFeature: onEachFeature3
+		}).addTo(featuresPerPer);
+		featuresPerPer.addTo(map);
+
+		map.attributionControl.addAttribution('Map by <a href="http://harrymaher.ga" target="_blank">Harry</a>. Data from King County elections: <a target="_blank" href="https://info.kingcounty.gov/KCElections/Results/web-results.aspx" >Results</a>, <a target="_blank" href="http://www.kingcounty.gov/depts/elections/elections/maps/precinct-and-district-data.aspx">Spatial Data</a>');
+		//first legend
+		var legend = L.control({position: 'bottomright'});
+		legend.onAdd = function (map) {
+		
+			var div = L.DomUtil.create('div', 'info legend'),
+				grades = [0, 8, 13, 16, 20, 29, 44, 71],
+				labels = [],
+				from, to;      
+
+			for (var i = 0; i < grades.length; i++) {
+				from = grades[i];
+				to = grades[i + 1];
+
+				labels.push(
+					'<i style="background:' + getColor(from + 1) + '"></i> ' +
+					from + (to ? '&ndash;' + to : '+'));
+			}
+
+			div.innerHTML = labels.join('<br>');
+			return div;
+		};
+
+		var legend3 = L.control({position: 'bottomright'});
+		legend3.onAdd = function (map) {
+			var div = L.DomUtil.create('div', 'info legend'),
+				grades3 = [0, 5, 10, 15, 20, 30, 50, 65],
+				labels3 = ["<div style='text-align:center !important;'>Trump %<br> Vote</div>"],
+				from, to;      
+
+			for (var i = 0; i < grades3.length; i++) {
+				from = grades3[i];
+				to = grades3[i + 1];
+
+				labels3.push(
+					'<i style="background:' + getColor3(from + 1) + '"></i> ' +
+					from + (to ? '&ndash;' + to : '+'));
+			}
+
+			div.innerHTML = labels3.join('<br>');
+			return div;
+		};
+		legend3.addTo(map);
+
+		
+		
+
+map.on('baselayerchange', function(eventLayer){
+	if (eventLayer.name === '<b>Features per 10,000 Residents</b>'){
+	legend3.addTo(map);
+	map.removeControl(legend);
+	} else {
+	legend.addTo(map);
+	map.removeControl(legend3);
+
+	}
+});
+
+	
+	
+	
+		
+	</script>
+</body>
+</html>

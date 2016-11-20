@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vaccination Rates of School Attendance Areas in Seattle</title>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/0.7.7/leaflet.css" />
+
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255, 1.0);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+			text-align: right;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+
+	<script src="https://cdn.jsdelivr.net/leaflet/0.7.7/leaflet.js"></script>
+	<script type="text/javascript" src="schoolPoints.js"></script>
+	<script type="text/javascript" src="attendanceareas.js"></script>
+	<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
+	<script type="text/javascript">
+	function addCommas(nStr)
+{	//this is just some code I found to put in a comma sep for the 1,000's place to help readability
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
+
+		
+		
+		var zones = new L.LayerGroup();
+		
+		var map = L.map('map',{
+		center: [47.615, -122.3321],
+		zoom: 11,
+		scrollWheelZoom: false
+		});
+
+		L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+		}).addTo(map);
+
+
+		// control that shows state info on hover
+		var info = L.control();
+
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+
+		info.update = function (props) {
+			this._div.innerHTML =  (props ?
+				'<h4>' + props.ES_ZONE + '</h4> <table style="float:right">' + '</td></tr><tr><td> Vaccinated:</td><td>' + Math.round(Number(props.PercentVac) * 100)/100 + '%</td></tr><tr><td> Students:</td><td>' + props.K_12_enrol + '</td></tr></table>': 'Hover over an attendance zone or school');
+		};
+
+		info.addTo(map);
+
+		
+		// get color depending on feature number 
+		function getColor(d) {
+			return d > 99  ? '#66c2a5' :
+			       d > 95  ? '#1a9850' :
+			       d > 90  ? '#91cf60' :
+			       d > 85   ? '#d9ef8b' :
+			       d > 80  ? '#fee08b' :
+			       d > 75   ? '#fc8d59' :
+			                 '#d73027';
+		}
+
+		function style(feature) {
+			return {
+				weight: 1,
+				opacity: .7,
+				color: 'grey',
+				fillOpacity: 0,
+				fillColor: "white",
+			};
+		}
+		
+		
+		function highlightFeature(e) {
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 5,
+				color: '#666',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			//if (!L.Browser.ie && !L.Browser.opera) {
+			//	layer.bringToFront();
+			//}
+
+			info.update(layer.feature.properties);
+		}
+
+		var geojson;
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			info.update();
+		}
+		function resetHighlight2(e) {
+			geojson2.resetStyle(e.target);
+			info.update();
+		}
+
+
+		function onEachFeature(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight,
+				click: highlightFeature
+			});
+		}
+		function onEachFeature2(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight2,
+				click: highlightFeature
+			});
+		}
+
+
+		geojson = L.geoJson(vacData, {
+			style: style,
+			onEachFeature: onEachFeature
+		}).addTo(zones);
+		zones.addTo(map);
+
+		map.attributionControl.addAttribution('Map by <a href="http://harrymaher.ga" target="_blank">harry</a>');
+		//first legend
+		var legend = L.control({position: 'bottomright'});
+		legend.onAdd = function (map) {
+		
+			var div = L.DomUtil.create('div', 'info legend'),
+				grades = [60, 75, 80, 85, 90, 95],
+				labels = ["Vaccinated %"],
+				from, to;      
+
+			for (var i = 0; i < grades.length; i++) {
+				from = grades[i];
+				to = grades[i + 1];
+
+				labels.push(
+					'<i style="background:' + getColor(from + 1) + '"></i> ' +
+					from + (to ? '&ndash;' + to : '+'));
+			}
+
+			div.innerHTML = labels.join('<br>');
+			return div;
+		};
+		legend.addTo(map);
+
+		function getRadius(d){
+		return 	d * .015
+		}
+		var geojson2;
+		
+		
+	geojson2 = L.geoJson([schools], {
+
+			style: function (feature) {
+				return feature.properties && feature.properties.style;
+			},
+
+			onEachFeature: onEachFeature2,
+
+			pointToLayer: function (feature, latlng) {
+				return L.circleMarker(latlng, {
+					radius: getRadius(feature.properties.K_12_enrol),
+					fillColor: getColor(Number(feature.properties.PercentVac)),
+					color: "white",
+					weight: 1,
+					opacity: 1,
+					fillOpacity: 0.8
+				});
+			}
+		}).addTo(map);
+
+
+		
+	</script>
+</body>
+</html>

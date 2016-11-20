@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>rain city maps</title>
+  <link rel="icon" type="image/ico" href="drop.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+  <!-- here are my styles !--><link rel="stylesheet" type="text/css" href="stylin.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+-I've recently been playing with JavaScript and Ruby and web coding stuff in my free time. I have a rudimentary website of mostly interactive Seattle maps. Check it out at: http://raincitymaps.com/
+  ga('create', 'UA-81730689-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+<body>
+
+<div id ="smallscreennav">
+
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand" href="index.html" style="font-size: 2.0em; letter-spacing: 4px;color: #225ea8">rain city maps</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+<li><a href="index.html">home</a></li>
+        	<li><a href="#about">about</a></li>
+        	<li><script type="text/javascript"><!--
+// Email obfuscator script 2.1 by Tim Williams, University of Arizona
+// Random encryption key feature by Andrew Moulden, Site Engineering Ltd
+// This code is freeware provided these four comment lines remain intact
+// A wizard to generate this code is at http://www.jottings.com/obfuscator/
+{ coded = "l5VytVoHC5B8@AC5VI.tjC"
+  key = "qytTKi374sdMWR1IpQgJ65GHo9ZVEFO8mr2eXfBbAnczwvj0xYPLDhClNukSUa"
+  shift=coded.length
+  link=""
+  for (i=0; i<coded.length; i++) {
+    if (key.indexOf(coded.charAt(i))==-1) {
+      ltr = coded.charAt(i)
+      link += (ltr)
+    }
+    else {     
+      ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
+      link += (key.charAt(ltr))
+    }
+  }
+document.write("<a href='mailto:"+link+"'>contact</a>")
+}
+//--></script></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</div>
+
+
+<div id="wrapper">
+
+        <div id="sidebar-wrapper">
+		<ul class="sidebar-nav">
+                <a href="index.html" style="color:#225ea8; text-decoration:none;"><img src="logo.svg" alt="logo" id="logo" style="height:250px;"> 
+			<span id="logotext">rain city maps</span>
+		</a>
+		<li><a href="index.html">home&nbsp;</a></li>
+        	<li><a href="#about">about&nbsp;</a></li>
+        	<li><a href="">
+		<script type="text/javascript">
+		document.write("<a href='mailto:"+link+"'>contact&nbsp</a>")
+		</script>
+</a></li>
+
+	     </ul>
+
+<footer class="container-fluid bg-4 text-center" style="background-color: #225ea8; color:#7fcdbb; width: 100%; position: absolute; bottom: 0px; height:60px; "><br>
+  <p><a style="color:#7fcdbb" href="http://harrymaher.ga/" target="_blank">Harry Maher</a> - 2016</p> 
+</footer>
+	</div>
+   
+<div id="page-content-wrapper">
+ <div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12" id ="cams">
+
+	<iframe src="googmaps/index.html" frameBorder="0" style="width:100%; height: 500px;">your browser is incompatable.</iframe>
+	
+    <div class="text">
+    <div class="col-xs-8"><a href="googmaps/index.html" target="_blank"><h3 style="display:inline">Live Traffic Cameras</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!--#10: September 15, 2016 <br><!-- Trigger -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#cams">share map</button>
+</div>
+    <div class="col-xs-12">
+	    <br>
+
+<p>
+Traffic is a <a href="http://www.seattletimes.com/opinion/soul-sucking-traffic-and-the-seattle-fixes-that-make-it-worse/" target="_blank">big problem in Seattle</a>. According to <a href="http://247wallst.com/special-report/2015/08/28/10-cities-with-the-worst-traffic/3/" target="_blank">one estimate</a>, traffic costs the average Seattle commuter $1,491 per year in wasted gas and lost productivity.
+<br><br>
+Checking the above map can help you avoid some jams. It displays live images from traffic cameras from Seattle's Department of Transportation as well as a traffic overlay from Google. Click on one of the cameras to see a live picture from that traffic camera. The pictures update themselves every minute, but some cameras may be broken, so check the date/time on the image to be sure.
+<br><br>
+Data:<br>
+<a href="https://data.seattle.gov/Transportation/Seattle-Traffic-Cameras/65fc-btcc" target="_blank">Seattle Traffic Cameras</a>
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+<!--	
+ <div class="row">
+    <div class="col-lg-12" id ="lr">
+
+	<iframe src="leaflet/lr/index.html" frameBorder="0" style="width:100%; height: 500px;">your browser is incompatable.</iframe>
+	
+    <div class="text">
+    <div class="col-xs-8"><a href="leaflet/lr/index.html" target="_blank"><h3 style="display:inline"> How Many People Can Walk<br>
+ to any Lightrail Station?</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!--#9: August 12, 2016<br><!-- Trigger --><!--
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#lr">share map</button>
+</div>
+
+    <div class="col-xs-12">
+
+<p>
+Transit expert <a href="http://humantransit.org/2011/04/basics-walking-distance-to-transit.html" target="_blank">Jarrett Walker</a> says that the standard distance that people will walk to catch a train or subway in the US is about 400 meters (or 1/4 mile), but that could range up to a half mile for faster rail transit.
+<br><br>
+The above map shows distances to the lightrail on foot using a sidewalks network. See the map for stats displaying how many people live within those zones. Click on the road segments to see how far the center of the segment is from the nearest lightrail stop.  Its interesting that while 46,749 people live within a half mile of the lightrail stops in Seattle, there were <a href="http://www.soundtransit.org/ridership" target="_blank">64,904 riders</a> on average June weekdays. Also, adding stations in Capitol Hill and at the University of Washington essentially <a href="http://www.soundtransit.org/ridership" target="_blank">doubled ridership</a>. So, Seattleites who travel by lightrail are likely also taking busses, carpooling, bicycling, and walking farther than expected to get home from lightrail stations.<br>
+
+Data:<br>
+<a href= "http://www.census.gov/data.html" target="_blank">US census block data estimates</a><br>
+<a href="http://www.soundtransit.org/link/link-light-rail-stations">current light rail stations</a><br>
+<a href="http://www.usroads.com/journals/p/rej/9710/re971001.htm" target="_blank">average walking pace</a>
+
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+ 
+ -->
+   <div class="row">
+    <div class="col-lg-12" id ="meals">
+
+	<iframe src="leaflet/Meals/index.html" frameBorder="0" style="width:100%; height: 500px;">your browser is incompatable.</iframe>
+	
+    <div class="text">
+    <div class="col-xs-8"><a href="leaflet/Meals/index.html" target="_blank"><h3 style="display:inline">Seattle Meals Programs</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!--#8: August 5, 2016<br> <!-- Trigger -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#meals">share map</button>
+</div>
+<br>
+    <div class="col-xs-12">
+    <p>
+	Every person deserves healthy food. The above map shows a database of free meal programs for low-income and homeless people in Seattle. Click on the icons to see details for that meal, and select meals using the box on the top right.
+<br><br>
+Data:<br><a href="https://data.seattle.gov/dataset/Meals-Programs-in-Seattle/hmzu-x5ed">Meals Programs in Seattle</a>
+
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+ 
+ <div class="row">
+    <div class="col-lg-12" id ="uber">
+		  <p style="text-align: center;"><a href="Uber5.png"target="_blank"><img src="Uber1.png"
+			onMouseOver="this.src='Uber5.png'" 
+			onMouseOut="this.src='Uber1.png'"
+		  title="A divided Seattle." class="img-swap" height="700" /></a></p>
+
+
+    <div class="text">
+    <div class="col-xs-8"><a href="Uber5.png" target="_blank"><h3 style="display:inline">Uber Destinations</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!--#7: July 29, 2016 <br> -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#uber">share map</button>
+</div>
+<br>
+    <div class="col-xs-12">
+    <p>
+	The above map shows the top destinations for Uber riders by neighborhoods from where the rides began. Mouse over the image to see a second map, a <a href="https://en.wikipedia.org/wiki/Cartogram" target="_blank">cartogram</a> that distorts neighborhood size based on the proportion of Uber passengers (out of all Seattle Uber passengers) starting from that neighborhood.
+	<br><br>
+	The data show how Uber riders gravitate towards the urban centers, even if they're already close to the middle of things. Even people starting in Capitol Hill take Ubers to Capitol Hill most often. Research shows that Americans nationwide are drawn to places like Downtown and Capitol Hill because they tend to enjoy visiting <a href="http://uar.sagepub.com/content/23/1/15.short" target="_blank">cultural hubs</a> as well as <a href="http://www.tandfonline.com/doi/abs/10.1080/026654397364591" target="_blank">retail centers</a>. Also, the map shows an interesting divide between North and South Seattle: Northerners more often go Downtown while Southerners tend to visit Capitol Hill.
+	<br><br>
+	A couple of warnings: Uber doesn't give open access to their data, so I took the data from the source code from a public map that they made in late 2012, so things are almost certainly different now. Also, <a href="https://newsroom.uber.com/wp-content/uploads/2014/07/uber_sea_connectome_.html" target="_blank">Uber's map</a> did a much better job showing the complexity of urban movement, and paints a much more realistic picture of how people move about cities, but I found that it had too many lines to make sense of what is happening, so I created a simpler version.
+	<br><br>
+	Data:<br>
+	<a href="https://newsroom.uber.com/wp-content/uploads/2014/07/uber_sea_connectome_.html" target="_blank">The source code of this map</a>
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+ 
+ 
+  <div class="row">
+    <div class="col-lg-12" id ="inspections">
+
+	<iframe src="leaflet/restaurantInspections/index.html" frameBorder="0" style="width:100%; height: 500px;">your browser is incompatable.</iframe>
+	
+    <div class="text">
+    <div class="col-xs-8"><a href="leaflet/restaurantInspections/index.html" target="_blank"><h3 style="display:inline">Restaurant Inspections</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!--#6: July 22, 2016<br><!-- Trigger -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#inspections">share map</button>
+</div>
+<br>
+
+    <div class="col-xs-12">
+    <p>
+The <a href="https://www.cdc.gov/foodborneburden/">CDC</a> estimates that every year 48 million people get sick and 3,000 are killed due to foodborne diseases. And, according to <a href="http://ajph.aphapublications.org/doi/abs/10.2105/AJPH.79.5.586" target="_blank">a study that took place in Seattle</a>, restaurants with poor inspection results and violations of proper temperature controls were "between five and ten times more likely to have foodborne illness outbreaks."
+<br><br>
+The above map shows inspection ratings by restaurant in Seattle. I wouldn't take it to mean much if a restaurant received an "unsatisfactory" score on a couple of inspections, but a low percentage of satisfactory ratings at a restaurant with multiple inspections might raise some questions. 
+<br><br>
+Also a quick note on ethnic restaurants. These restaurants <i>do</i> tend to <a href="http://onlinelibrary.wiley.com/doi/10.1111/1541-4337.12044/full#crf312044-sec-0220" target="_blank">be the source of more outbreaks</a>. But that's because these restaurants use more fresh vegetables, uncooked fish, and 
+	    r variety of ingredients with special requirements. For example, did you know that sushi rice needs a pH of 4.2 or less? Or that fried rice needs to be held above 135°F until consumption?
+<br><br>
+Data:<br>
+<a href="http://www5.kingcounty.gov/gisdataportal/" target="_blank">King County GIS Portal</a><br>
+<small><small>*Legal: <small>As you can see from the above link, these data are public. They are not modified from the source in any way to defame anyone, and, to the best of my knowledge, true. But any large database will have plenty of errors. Contact me if something is inaccurate and I will fix it ASAP. Otherwise, <a href="http://www.dmlp.org/legal-guide/risks-associated-publication" target="blank">I'm covered</a>. </small></small></small>
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+ <!--
+ 
+    	<div class="row">
+    <div class="col-lg-12" id="guessCrime">
+
+    <div class="text">
+    <div class="col-xs-8"><a href="#" target=""><h3 style="display:inline">9-1-1 Maps Quiz</h3></a></div>  <div class="col-xs-4" style="text-align: right;" >#5: July 15, 2016<br><!-- Trigger --><!--
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#guessCrime">share quiz</button></div>
+<iframe src="leaflet/guessTheCrime/index.html" frameBorder="0" style="width:650px; height: 530px; margin-left: auto; margin-right:auto;">your browser is incompatable.</iframe>
+    <div class="col-xs-12">
+ 
+ 
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+-->
+ <div class="row">
+    <div class="col-lg-12" id ="vaccines">
+
+	<iframe src="leaflet/vaccines/index.html" frameBorder="0" style="width:100%; height: 500px;">your browser is incompatable.</iframe>
+	
+    <div class="text">
+    <div class="col-xs-8"><a href="leaflet/vaccines/index.html" target="_blank"><h3 style="display:inline">Vaccination Rates at Public Elementaries</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!--#4: July 8, 2016<br><!-- Trigger -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#vaccines">share map</button>
+</div>
+
+    <div class="col-xs-12">
+    <p>
+	<br>
+	    According to <a href="http://www.immunize.org/importance-of-vaccines/" target="_blank">immunize.org</a>, vaccines have saved more than a billion lives in the past 50 years. Meanwhile, kids in Seattle have lower polio vaccination rates than kids in <a href="http://kuow.org/post/seattle-kids-have-lower-polio-vaccination-rate-rwanda" target="_blank">developing countries</a> such as Rwanda.
+<br><br>
+The above map shows the percentages of kids with all required vaccinations* in Seattle public elementary schools with outlines delineating  <a href="https://www.seattleschools.org/cms/one.aspx?portalId=627&pageId=665322" target="_blank">elementary school attendance areas</a> for the 2015-2016 school year. For point of reference, studies say immunization rates need to from above <a href="http://jama.jamanetwork.com/article.aspx?articleid=395057" target="_blank">80%</a> to above <a href="http://cid.oxfordjournals.org/content/52/7/911.full" target="_blank">95%</a> for herd immunity to prevent the spread of certain diseases. Parents, please vaccinate your kids!
+<br><br>
+<small>
+Data:<br>
+<a href="https://data.wa.gov/Health/All-students-kindergarten-through-12th-grade-immun/ie96-cgrn" target="_blank">School immunization rates</a><br>
+<a href="https://www.seattleschools.org/cms/one.aspx?portalId=627&pageId=665322" target="_blank">Elementary school attendance areas</a>
+<br><br>
+*Required vaccines include: hepatitis-B , DTaP (diphtheria, tetanus, and whooping cough), IPV (polio), MMR (measles, mumps, and rubella), and varicella (chicken pox).
+</small>
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+ -->
+   	<div class="row">
+    <div class="col-lg-12" id="parks">
+
+	<iframe src="leaflet/parks/index.html" frameBorder="0" style="width:100%; height: 500px;">your browser is incompatable.</iframe>
+	
+	
+    <div class="text">
+    <div class="col-xs-8"><a href="leaflet/parks/index.html" target="_blank"><h3 style="display:inline">Park Features Per Capita</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!--#3: July 1, 2016<br><!-- Trigger -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#parks">share map</button></div>
+<br>
+
+    <div class="col-xs-12">
+    <p>
+	Researchers have found that "<a href="http://ajph.aphapublications.org/doi/abs/10.2105/AJPH.2007.129064" target="_blank">parks with more features are more likely to be used for physical activity</a>," and <a href="http://www.jstor.org/stable/3556552" target="_blank">people who live near parks are likely to be more active and have healthier lifestyles</a>. So, it appears that having a park in the neighborhood (with more features) is a good thing. How many park features per 10,000 people are in your neighborhood?
+<Br><br>
+Park features include paths, tennis courts, restrooms, views, waterfront views, <a title="Apparently that's what they call water fountains in here" href="http://www4.uwm.edu/FLL/linguistics/dialect/staticmaps/q_103.html" target="_blank">drinking fountains,</a> clusters of benches,<a title="300 foot clusters of 3+ benches - a cluster of benches is more in line with how other features are defined by the parks & rec dept. n=338 clusters.">*</a> and more.
+
+<br><br><small>
+Data:<br>
+<a href= "https://www.nhgis.org/">NHGIS - block level US census data</a>
+ &bull; <a href= "https://data.seattle.gov/Parks-and-Recreation/Seattle-Parks-and-Recreation-Parks-Features/2cer-njie" target="_blank">Seattle open data - park features</a>
+ &bull; <a href= "https://data.seattle.gov/Parks-and-Recreation/Seattle-Parks-and-Recreation-GIS-Map-Layer-Shapefi/m78m-bdc6" target="_blank">Seattle open data - drinking fountains</a>
+ &bull;  <a href= "https://data.seattle.gov/Parks-and-Recreation/Seattle-Parks-and-Recreation-GIS-Map-Layer-Shapefi/stxh-q78s" target="_blank">Seattle open data - benches</a>
+ &bull; <a title="(they. require. their. logo.)" href="http://www.zillow.com/howto/api/neighborhood-boundaries.htm"><img src="http://www.zillowstatic.com/vstatic/4e2f60e/static/logos/Zillow_Logo_HoodsProvided_RightAligned.gif" style="height:20px;" target="_blank"></a></small>
+	
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+	
+	<div class="row">
+    <div class="col-lg-12" id="smith">
+	<div class="text">
+    <style>
+div#preload {display: none; }
+</style>
+<body>
+<div id="range"><img src='lidar/imgs_2.jpg' style="width:98%"></div>
+<input type="range" min="2" max="79" value="0" step="1" style="width:98%;" oninput="showValue(this.value)" />
+
+<script type="text/javascript">
+function showValue(newValue)
+{
+	if(newValue > 40){
+	newValue = newValue - 39
+	};
+	document.getElementById("range").innerHTML='<img src= "lidar/imgs_'+ newValue +'.jpg" style="width:98%;">';
+}
+</script>
+
+<div id="preload">
+   <img src="lidar/imgs_2.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_3.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_4.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_5.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_6.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_7.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_8.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_9.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_10.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_11.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_12.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_13.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_14.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_15.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_16.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_17.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_18.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_19.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_20.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_21.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_22.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_23.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_24.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_25.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_26.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_27.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_28.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_29.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_30.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_31.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_32.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_33.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_34.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_35.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_36.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_37.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_39.jpg" width="1" height="1" alt="Image" />
+   <img src="lidar/imgs_40.jpg" width="1" height="1" alt="Image" />  
+   
+</div>
+
+    
+    <div class="col-xs-8"><a href="#smith"><h3 style="display:inline">Smith Tower According to LiDAR</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!-- #2: June 24, 2016<br><!-- Trigger -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#smith">share</button></div>
+<br>
+    <div class="col-xs-12">
+    <p>
+Did you know that <a href = "https://en.wikipedia.org/wiki/Smith_Tower" target="_blank">Smith Tower</a>--which was once the tallest building West of the Mississippi (and 4th tallest in the world)--has <a href="http://www.nytimes.com/2010/10/21/garden/21who.html?_r=0" target="_blank">an apartment unit at the top</a>? It <a href="https://www.google.com/search?q=smith+tower+apartment&espv=2&source=lnms&tbm=isch&sa=X&ved=0ahUKEwivrJ6RnffNAhVM_WMKHQ8dBdEQ_AUICCgB&biw=1366&bih=643">looks amazing</a>. Not to be outdone by the inside, this is how the exterior of the tower looks according to LiDAR; a technology that uses space lasers to get high-res elevation datasets. LiDAR is also used to make a type of <a href="https://www.flickr.com/photos/72128514@N04/sets/72157629420634535/" target="_blank">art</a> reminiscent of <a href="https://www.google.com/search?q=seurat+pointillism" target="_blank">pointillism.</a>
+</p>
+<p>
+<small>
+Data:<br>
+<a href="http://pugetsoundlidar.ess.washington.edu/lidardata/index.html" target="_blank"> Puget Sound lidar Consortium</a><br>
+<small>*Click and drag the slider. The slider won't appear if you're using internet explorer or some other outdated browser. Upgrade to firefox or chrome.</small></small>
+</p>
+    </div>
+    </div>
+</div> </div>
+<hr/>
+
+<div class="row">
+    <div class="col-lg-12" id="rent">
+
+	<iframe src="leaflet/affordableHousing/index.html" style="width:100%; height: 500px;" frameBorder="0"> your browser is incompatable.</iframe>
+    <div class="text">
+    <div class="col-xs-8"><a href="leaflet/affordableHousing/index.html" target="_blank"><h3 style="display:inline">Buildings with Affordable Rent</h3></a></div>  <div class="col-xs-4" style="text-align: right;" ><!--#1: June 17, 2016<br><!-- Trigger -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#vaccines/#rent">share map</button></div>
+<br>
+    <div class="col-xs-12">
+    <p>
+	Rent in Seattle is <a href="https://seattle.craigslist.org/search/apa" target="_blank">too</a> <a href="http://www.seattlemet.com/articles/2015/4/22/the-rent-really-is-too-damn-high-may-2015" target="_blank">damn</a> <a href="http://www.seattletimes.com/business/real-estate/high-rise-more-upper-income-seattleites-renting/" target="_blank">high</a>.  Luckily, the city government currently has <a href="http://www.seattle.gov/housing/housing-developers/multifamily-tax-exemption">a program</a> that gives tax breaks to apartment buildings that provide affordable housing for the middle class. If you make a middle-class wage you likely qualify.
+<Br><br>
+	Anyway, here's a map of most<a title="This data are a few months old, sorry">*</a> of the MFTE buildings are in Seattle. Some have waitlists and some you just have to get lucky about contacting at the right time, but if you try enough buildings you might get lucky.<a title="I did!">**</a> Also, please vote for more affordable housing, because the current system is <a href="http://thelens.news/2016/05/09/affordable-housing-for-the-few-but-not-the-many-in-greater-seattle/">inadequate</a>.
+    </p>
+	<small>
+	Data:<br>
+	<a href="http://www.seattle.gov/housing/housing-developers/multifamily-tax-exemption">MFTE Housing</a>
+	</small>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+
+
+	<div class="row">
+    <div class="col-lg-12">
+
+    <img src ="logo.svg" id="about" alt="SVG of logo." class="img-responsive" style="margin-left: auto; margin-right: auto; max-height: 400px;"> 
+    <p></p>
+
+    <div class="text">
+    <div class="col-xs-6"><a href="#about"><h3 style="display:inline">About</h3></a></div>  <div class="col-xs-6" style="text-align: right;" ><!--#0: June 10, 2016<br><!-- Trigger -->
+<button class="btn" data-clipboard-demo data-clipboard-action="copy" data-clipboard-text="http://raincitymaps.com/#about">share</button></div>
+<br>
+
+    <div class="col-xs-12">
+    <p>
+	This site is composed of a collection of Seattle-related maps created with publicly available data by a recent <a href="http://harrymaher.ga/" target="_blank">transplant</a> who wants to learn more about Seattle.  New content will appear whenever I'm not too busy.
+	    </p>
+	<p>
+	Please don't hesitate to <script type="text/javascript"> document.write("<a href='mailto:"+link+"'>contact me</a>")</script> with any questions. Enjoy!
+    </p>
+    </div>
+    </div>
+</div> </div>
+    <hr/>
+ 
+
+ <script>
+// from: http://stackoverflow.com/questions/37381640/tooltips-highlight-animation-with-clipboard-js-click/37395225
+// Tooltip
+
+$('.btn').tooltip({
+  trigger: 'click',
+  placement: 'top'
+});
+
+function setTooltip(btn, message) {
+  $(btn).tooltip('hide')
+    .attr('data-original-title', message)
+    .tooltip('show');
+}
+
+function hideTooltip(btn) {
+  setTimeout(function() {
+    $(btn).tooltip('hide');
+  }, 2500);
+}
+
+ // Clipboard
+
+var clipboard = new Clipboard('.btn');
+
+clipboard.on('success', function(e) {
+  setTooltip(e.trigger, 'Copied to clipboard!' + ' Share using ctrl + v.');
+  hideTooltip(e.trigger);
+});
+
+clipboard.on('error', function(e) {
+  setTooltip(e.trigger, 'Failed!');
+  hideTooltip(e.trigger);
+});
+
+</script>
+</div>
+</div>
+</div>
+</body>
+</html>

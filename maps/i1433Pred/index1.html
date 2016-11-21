@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Does Voting Trump Predict a Vote Against I-1433?</title>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/0.7.7/leaflet.css" />
+
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255, 1.0);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+			text-align: right;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+
+	<script src="https://cdn.jsdelivr.net/leaflet/0.7.7/leaflet.js"></script>
+	<script type="text/javascript" src="trumpWages.js"></script>
+	<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
+	<script type="text/javascript">
+	//this is just some code I found to put in a comma sep for the 1,000's place to help readability
+	function addCommas(nStr){	
+		nStr += '';
+		x = nStr.split('.');
+		x1 = x[0];
+		x2 = x.length > 1 ? '.' + x[1] : '';
+		var rgx = /(\d+)(\d{3})/;
+		while (rgx.test(x1)) {
+			x1 = x1.replace(rgx, '$1' + ',' + '$2');
+		}
+		return x1 + x2;
+	}
+
+		
+			
+		var residualfeatures = new L.LayerGroup();
+		var novotefeatures = new L.LayerGroup();
+		var trumpfeatures = new L.LayerGroup();
+
+
+		var population = new L.LayerGroup();
+		
+		var map = L.map('map',{
+		center: [47.615, -122.3321],
+		zoom: 11,
+		scrollWheelZoom: false
+		});
+
+		L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+		}).addTo(map);
+
+
+		// control that shows state info on hover
+		var info = L.control();
+
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+
+		info.update = function (props) {
+			this._div.innerHTML =  (props ?
+				'<table><tr><td> Trump Votes:</td><td>'+ Math.round(100*props.PctTrump)/100 +'%</td></tr><tr><td> Predicted "no" votes: </td><td> '+ Math.round(100*(props.pctNo - props.RES_2))/100 +'%</td></tr><tr><td> Actual "no" votes:</td><td> '+ Math.round(100*props.pctNo)/100 +'%</td></tr><tr><td> Residual (prediction error): </td><td> '+ Math.round(100*props.RES_2)/100 +'%</td></tr> </table>'
+				: 'Hover over a precinct');
+		};
+
+		info.addTo(map);
+		var baseLayers = {
+			"Residuals&nbsp;(prediction&nbsp;error)": residualfeatures,
+			'Votes&nbsp;"no"&nbsp;on&nbsp;I-1433': novotefeatures,
+			/*'Trump&nbsp;votes&nbsp;%': trumpfeatures*/
+		};
+		var overlays = {
+		};
+		//removed because for number of something choropleth isn't the best. it's just for rates
+		//L.control.layers(baseLayers, overlays, {position: 'bottomleft', collapsed: false}).addTo(map);
+
+		
+		function getColor(d) {
+			return d > 65? '#3288bd' :
+			       d > 50  ? '#66c2a5' :
+			       d > 30  ? '#abdda4' :
+			       d > 20  ? '#e6f598' :
+			       d > 15   ? '#fee08b' :
+			       d > 10  ? '#fdae61' :
+			       d > 5   ? '#f46d43' :
+			               '#d53e4f';
+		}
+
+		function getColor2(d) {
+			return d > 65? '#d53e4f' :
+			       d > 50  ? '#f46d43' :
+			       d > 30  ? '#fdae61' :
+			       d > 20  ? '#fee08b' :
+			       d > 15   ? '#e6f598' :
+			       d > 10  ? '#abdda4' :
+			       d > 5   ? '#66c2a5' :
+			               '#3288bd';
+		}
+				function getColor3(d) {
+			return d > 12  ? '#d53e4f' :
+			       d > 7.5  ? '#fc8d59' :
+			       d > 2.5  ? '#fee08b' :
+			       d > -2.5   ? '#ffffbf' :
+			       d > -7.5  ? '#e6f598' :
+			       d > -13   ? '#99d594' :
+			               '#3288bd';
+		}
+
+
+		function style(feature) {
+			return {
+				weight: 1,
+				opacity: .7,
+				color: 'white',
+				fillOpacity: 0.7,
+				fillColor: getColor(feature.properties.pctNo)
+			};
+		}
+		function style2(feature) {
+			return {
+				weight: 1,
+				opacity: .7,
+				color: 'white',
+				fillOpacity: 0.7,
+				fillColor: getColor2(feature.properties.PctTrump)
+			};
+		}
+		
+		function style3(feature) {
+			return {
+				weight: 1,
+				opacity: .5,
+				color: 'white',
+				fillOpacity: 0.7,
+				fillColor: getColor3(feature.properties.RES_2)
+			};
+		}
+		
+		function highlightFeature(e) {
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 5,
+				color: '#666',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+
+			info.update(layer.feature.properties);
+		}
+
+		var geojson;
+		var geojson2;
+		var geojson3;
+
+
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			info.update();
+		}
+		function resetHighlight2(e) {
+			geojson2.resetStyle(e.target);
+			info.update();
+		}
+		function resetHighlight3(e) {
+			geojson3.resetStyle(e.target);
+			info.update();
+		}
+
+		function onEachFeature(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight,
+				click: highlightFeature
+			});
+		}
+		function onEachFeature2(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight2,
+				click: highlightFeature
+			});
+		}
+		function onEachFeature3(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight3,
+				click: highlightFeature
+			});
+		}
+
+		geojson = L.geoJson(hoods, {
+			style: style,
+			onEachFeature: onEachFeature
+		}).addTo(novotefeatures);
+		geojson3 = L.geoJson(hoods, {
+			style: style3,
+			onEachFeature: onEachFeature3
+		}).addTo(residualfeatures);
+		geojson2 = L.geoJson(hoods, {
+			style: style,
+			onEachFeature: onEachFeature2
+		}).addTo(trumpfeatures);
+		residualfeatures.addTo(map);
+
+		map.attributionControl.addAttribution('Map by <a href="http://harrymaher.ga" target="_blank">Harry</a>. Data from King County elections: <a target="_blank" href="https://info.kingcounty.gov/KCElections/Results/web-results.aspx" >Results</a>, <a target="_blank" href="http://www.kingcounty.gov/depts/elections/elections/maps/precinct-and-district-data.aspx">Spatial Data</a>');
+		//first legend
+		var legend = L.control({position: 'bottomright'});
+		legend.onAdd = function (map) {
+		
+			var div = L.DomUtil.create('div', 'info legend'),
+				grades = [5, 10, 15, 20, 30, 50, 65],
+				labels = ["<div style='text-align:center !important;'> Votes No on I-1433%</div>"],
+				from, to;      
+
+			for (var i = 0; i < grades.length; i++) {
+				from = grades[i];
+				to = grades[i + 1];
+
+				labels.push(
+					'<i style="background:' + getColor(from + 1) + '"></i> ' +
+					from + (to ? '&ndash;' + to : '+'));
+			}
+
+			div.innerHTML = labels.join('<br>');
+			return div;
+		};
+		var legend2 = L.control({position: 'bottomright'});
+		legend2.onAdd = function (map) {
+			var div = L.DomUtil.create('div', 'info legend'),
+				grades2 = [5, 10, 15, 20, 30, 50, 65],
+				labels2 = ["<div style='text-align:center !important;'>Trump Votes%</div>"],
+				from, to;      
+
+			for (var i = 0; i < grades2.length; i++) {
+				from = grades2[i];
+				to = grades2[i + 1];
+
+				labels2.push(
+					'<i style="background:' + getColor2(from + 1) + '"></i> ' +
+					from + (to ? '&ndash;' + to : '+'));
+			}
+
+			div.innerHTML = labels2.join('<br>');
+			return div;
+		};
+
+		var legend3 = L.control({position: 'bottomright'});
+		legend3.onAdd = function (map) {
+			var div = L.DomUtil.create('div', 'info legend'),
+				grades3 = [-17, -13, -2.5, 2.5, 7.5, 12],
+				labels3 = ["<div style='text-align:center !important;'>Prediction Error of Votes<br>(Actual% - Predicted %)</div>"],
+				from, to;      
+
+			for (var i = 0; i < grades3.length; i++) {
+				from = grades3[i];
+				to = grades3[i + 1];
+
+				labels3.push(
+					'<i style="background:' + getColor3(from + 1) + '"></i> ' +
+					from + (to ? '&ndash;' + to : '+'));
+			}
+
+			div.innerHTML = labels3.join('<br>');
+			return div;
+		};
+		legend3.addTo(map);
+
+		
+		/*			"Residuals&nbsp;(prediction&nbsp;error)": residualfeatures,
+			'Votes&nbsp;"no"&nbsp;on&nbsp;I-1433': novotefeatures,*/
+	var state = "3";
+
+map.on('baselayerchange', function(eventLayer){
+	if (eventLayer.name === 'Trump&nbsp;votes&nbsp;%'){
+		if(state == "3"){
+		map.removeControl(legend3);
+		} else{
+		map.removeControl(legend);
+		}
+		legend2.addTo(map);
+		state = "2";
+	} else if (eventLayer.name === 'Votes&nbsp;"no"&nbsp;on&nbsp;I-1433'){
+		if(state == "3"){
+		map.removeControl(legend3);
+		} else{
+		map.removeControl(legend2);
+		}
+		legend.addTo(map);
+		state = "1";
+	}else {
+		if(state == "2"){
+		map.removeControl(legend2);
+		} else{
+		map.removeControl(legend);
+		}
+		legend3.addTo(map);
+		state = "1";
+
+	}
+});
+
+	
+	
+	
+		
+	</script>
+</body>
+</html>

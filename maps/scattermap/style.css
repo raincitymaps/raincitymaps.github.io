@@ -1,0 +1,120 @@
+.line {
+    stroke: #E4002B;
+    fill: none;
+    opacity: .7;
+    stroke-width: 3;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 10px;
+    font-family: segoe ui;
+}
+
+.text-label {
+    font-size: 10px;
+    font-family: segoe ui;
+}
+
+.dot {
+    stroke: #293b47;
+    fill: #7A99AC;
+    opacity: .4;
+}
+/*
+.precinct_id{
+    stroke: #0000CD;
+}
+
+.precinct_id:hover {
+    fill: #FF00FF;
+}*/
+.hover{
+    fill: #FF00FF;
+}
+
+div.tooltip {   
+    position: fixed;         
+    text-align: center;         
+    width: 100px;                    
+    height: 50px;                   
+    padding: 2px;               
+    font: 12px sans-serif;      
+    background: lightsteelblue; 
+    border: 0px;        
+    border-radius: 8px;         
+    pointer-events: none;  
+    z-index: 9999999999;
+}
+
+#scatter_data_controls {
+    position:fixed;
+    z-index: 99999999999;
+    bottom: 30px;
+    left:20px;
+    background-color: rgba(255, 255, 255, 0.98);
+    min-width: 400px;
+    min-height: 480px;
+    font-family: segoe ui;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+#scatter_svg {
+    position:fixed;
+    z-index: 999999;
+}
+
+.aligncenter {
+    text-align: center;
+}
+
+/* Map styles! These may conflict w/ above!!! */
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html, body, #map {
+    position:fixed;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    font-family: segoe ui;
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px segoe ui;
+    background: white;
+    background: rgba(255,255,255, 1.0);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    text-align: right;
+}
+
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    text-align: left;
+    line-height: 18px;
+    color: #555;
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}

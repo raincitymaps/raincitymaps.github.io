@@ -1,43 +1,37 @@
 .line {
     stroke: #E4002B;
     fill: none;
-    opacity: .7;
     stroke-width: 3;
 }
 
 .axis path,
 .axis line {
     fill: none;
-    stroke: black;
+    stroke: #D3D3D3;
+    stroke-opacity: 0.7;
     shape-rendering: crispEdges;
 }
 
 .axis text {
     font-size: 10px;
-    font-family: segoe ui;
+    font-family: 'segoe ui', 'Open Sans', sans-serif;
+
+;
 }
 
-.text-label {
-    font-size: 10px;
-    font-family: segoe ui;
+svg text.label {
+    font-size: 30px; 
+    font-family: 'segoe ui', 'Open Sans', sans-serif;
+
+;
 }
 
 .dot {
     stroke: #293b47;
     fill: #7A99AC;
-    opacity: .4;
-}
-/*
-.precinct_id{
-    stroke: #0000CD;
+    opacity: .2;
 }
 
-.precinct_id:hover {
-    fill: #FF00FF;
-}*/
-.hover{
-    fill: #FF00FF;
-}
 
 div.tooltip {   
     position: fixed;         
@@ -45,8 +39,10 @@ div.tooltip {
     width: 100px;                    
     height: 50px;                   
     padding: 2px;               
-    font: 12px sans-serif;      
-    background: lightsteelblue; 
+    font: 12px 'segoe ui', 'Open Sans', sans-serif;
+
+;      
+    background: #B0C4DE; 
     border: 0px;        
     border-radius: 8px;         
     pointer-events: none;  
@@ -56,12 +52,14 @@ div.tooltip {
 #scatter_data_controls {
     position:fixed;
     z-index: 99999999999;
-    bottom: 30px;
-    left:20px;
+    bottom: 15px;
+    left:15px;
     background-color: rgba(255, 255, 255, 0.98);
     min-width: 400px;
     min-height: 480px;
-    font-family: segoe ui;
+    font-family: 'segoe ui', 'Open Sans', sans-serif;
+
+;
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
 }
@@ -75,6 +73,42 @@ div.tooltip {
     text-align: center;
 }
 
+select {
+    margin-top:5px;
+    font-family: 'segoe ui', 'Open Sans', sans-serif;
+    width: 90px;
+}
+
+button {
+    display: inline-block;
+    border: none;
+    padding: 4px;
+    margin: 0;
+    text-decoration: none;
+    background: #D3D3D3;
+    border-radius: 3px;
+    color: #000;
+    cursor: pointer;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+button:hover,
+button:focus {
+    background: #A9A9A9;
+}
+
+button:focus {
+    outline: 1px solid #fff;
+    outline-offset: -4px;
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+
 /* Map styles! These may conflict w/ above!!! */
 
 body {
@@ -87,12 +121,16 @@ html, body, #map {
     top: 0px;
     height: 100%;
     width: 100%;
-    font-family: segoe ui;
+    font-family: 'segoe ui', 'Open Sans', sans-serif;
+
+;
 }
 
 .info {
     padding: 6px 8px;
-    font: 14px/16px segoe ui;
+    font: 14px/16px 'segoe ui', 'Open Sans', sans-serif;
+
+;
     background: white;
     background: rgba(255,255,255, 1.0);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -117,4 +155,8 @@ html, body, #map {
     float: left;
     margin-right: 8px;
     opacity: 0.7;
+}
+
+span::after{
+    content: ' ';
 }

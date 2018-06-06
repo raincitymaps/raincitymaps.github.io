@@ -35,11 +35,17 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
+        x_prop = document.getElementById('x_dataset').value.split(";")[0]
+        y_prop = document.getElementById('y_dataset').value.split(";")[0]
+        x_title = document.getElementById('x_dataset').value.split(";")[1]
+        y_title = document.getElementById('y_dataset').value.split(";")[1]
     this._div.innerHTML =  (props ?
-        '<table><tr><td> Trump Votes:</td><td>'+ Math.round(100*props.PctTrump)/100 +'%</td></tr>\
-        </tr><tr><td> "No" votes:</td><td> '+ Math.round(100*props.pctNo)/100 +'%</td></tr>\
-        <tr><td> Predicted "no" votes: </td><td> '+ Math.round(100*(props.pctNo - props.residual_of_current))/100 +'%</td>\
-        <tr><td> Residual (prediction error): </td><td> '+ Math.round(100*props.residual_of_current)/100 +'%</td></tr> </table>'
+        /// these props are wrong because need to divide by "b"
+        '<table><tr><td>'+x_title+' votes:</td><td>'+ Math.round(props[x_prop]/props["b"] * 10000)/100 +'% ('+props[x_prop] +')</td></tr>\
+        </tr><tr><td>'+y_title+' votes:</td><td> '+ Math.round(props[y_prop]/props["b"] * 10000)/100 +'% ('+props[y_prop] +')</td></tr>\
+        <tr><td> Predicted '+y_title+' votes: </td><td> '+ Math.round(100*(props[y_prop]/props["b"] * 100 - props.residual_of_current))/100 +'% ('+ Math.round(((props[y_prop]/props["b"] * 100 - props.residual_of_current))/100 * props["b"])+')</td>\
+        <tr><td> Residual (prediction error): </td><td> '+ Math.round(100*props.residual_of_current)/100 +'%</td></tr>\
+        <tr><td> Res. Standard Dev.:</td><td>'+ Math.round(100*props.std_dev_of_residual)/100+'</td></tr></table>'
         : 'Hover over a precinct');
 };
 
@@ -53,25 +59,26 @@ info.addTo(map);
 //removed because for number of something choropleth isn't the best. it's just for rates
 //L.control.layers(baseLayers, overlays, {position: 'bottomleft', collapsed: false}).addTo(map);
 
-
+// fix?
         function getColorForMap(d) {
-    return d > 12  ? '#b35806' :
-           d > 7.5  ? '#f1a340' :
-           d > 2.5  ? '#fee0b6' :
-           d > -2.5   ? '#f7f7f7' :
-           d > -7.5  ? '#d8daeb' :
-           d > -13   ? '#998ec3' :
+    return d > 2  ? '#b35806' :
+           d > 1  ? '#f1a340' :
+           d > .5  ? '#fee0b6' :
+           d > -.5   ? '#f7f7f7' :
+           d > -1  ? '#d8daeb' :
+           d > -2   ? '#998ec3' :
                    '#542788';
 };
 
 
-function style3(feature) {
+function style(feature) {
     return {
         weight: 1,
         opacity: .5,
         color: 'white',
         fillOpacity: 0.7,
-        fillColor: getColorForMap(feature.properties.residual_of_current)
+        className: feature.properties[UID].replace(" ", ""), // this should be whatever the unique identifier is
+        fillColor: getColorForMap(feature.properties.std_dev_of_residual)
     };
 }
     
@@ -90,13 +97,30 @@ function highlightFeature(e) {
     }
 
     info.update(layer.feature.properties);
+
+    // highlight circle of hovered element if on the plot
+    try{
+    document.getElementById(layer.feature.properties[UID]).style.opacity = 1
+    document.getElementById(layer.feature.properties[UID]).style.fill = "black";
+    }catch(err){
+        //console.log(err)
+    }
 }
 
-var geojson3;
+var geojson;
 
 
 function resetHighlight(e) {
-    geojson3.resetStyle(e.target);
+    var layer = e.target;
+
+    // un-highlight circle as hover changes if on plot
+    try{
+    document.getElementById(layer.feature.properties[UID]).style.opacity = .2;
+    document.getElementById(layer.feature.properties[UID]).style.fill = "#7A99AC";
+    }catch(err){
+        //console.log(err)
+    }
+    geojson.resetStyle(e.target);
     info.update();
 }
 
@@ -111,8 +135,8 @@ function onEachFeature(feature, layer) {
 
 function draw_map(){
     var residualfeatures = new L.LayerGroup();
-    geojson3 = L.geoJson(hoods, {
-        style: style3,
+    geojson = L.geoJson(precincts, {  // precincts needs to be whatever we're calling geojson
+        style: style,
         onEachFeature: onEachFeature
     }).addTo(residualfeatures);
     residualfeatures.addTo(map);
@@ -125,9 +149,10 @@ map.attributionControl.addAttribution('By <a href="http://harrymaher.github.io" 
 
 var legend = L.control({position: 'bottomright'});
 legend.onAdd = function (map) {
+    min = (Math.round(data.min*10)/10);
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [-17, -13, -2.5, 2.5, 7.5, 12],
-        labels = ["<div style='text-align:center !important;'>Prediction Error of Votes<br>(Actual% - Predicted %)</div>"],
+        grades = [min, -2, -1, -.5, .5, 1, 2,],
+        labels = ["<span style='text-align:center !important; display:inline-block !important;'>Residual<br>Standard Deviations</span>"],
         from, to;      
 
     for (var i = 0; i < grades.length; i++) {
@@ -135,8 +160,8 @@ legend.onAdd = function (map) {
         to = grades[i + 1];
 
         labels.push(
-            '<i style="background:' + getColorForMap(from + 1) + '"></i> ' +
-            from + (to ? '&ndash;' + to : '+'));
+            '<i style="background:' + getColorForMap(from + .01) + '"></i> ' +
+            from + (to ? '&nbsp; &ndash; &nbsp;' + to : '+'));
     }
 
     div.innerHTML = labels.join('<br>');

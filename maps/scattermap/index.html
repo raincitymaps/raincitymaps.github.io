@@ -5,13 +5,17 @@
 
     <title>D3 Scatterplot with Regression -- Residuals Mapped With Leaflet</title>
 
-    <!-- HARRY'S STYLES -->
+    <!-- STYLES -->
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css" />
 
     <!-- SCRIPTS -->
-    <script src = "https://raincitymaps.github.io/maps/i1433Pred/trumpWages.js"></script>
+    <script src = "precincts.js"></script>
     <!-- above is the current data source, will be switched with something to be served in future. This is just a mock-up example. -->
+    <!-- calculates standard deviations for legend -->
+    <script src="std_dev.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
               integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
               crossorigin="anonymous"></script> -->
@@ -22,8 +26,7 @@
 </head>
 
 <body>
-
-    <div id= "scatter_data_controls">
+    <div id = "scatter_data_controls">
         <div class = "aligncenter">
             <div id= "currentRegressionModel"></div>
             <div id="formula"></div>
@@ -33,6 +36,193 @@
             <button onclick="logarithmic_function()">logarithmic</button>
             <button onclick="power_function()">power</button>
             <button onclick="polynomial_function()">polynomial</button>
+            <br>
+            X data:  
+            <select id = "x_dataset">
+                <option value="c;Maintained">Advisory Vote 14: Maintained</option>
+                <option value="d;Repealed">Advisory Vote 14: Repealed</option>
+                <option value="g;Maintained">Advisory Vote 15: Maintained</option>
+                <option value="h;Repealed">Advisory Vote 15: Repealed</option>
+                <option value="k;Bob Ferguson">Attorney General: Bob Ferguson</option>
+                <option value="l;Joshua B. Trumbull">Attorney General: Joshua B. Trumbull</option>
+                <option value="o;Write-In">Attorney General: Write-In</option>
+                <option value="p;Hilary Franz">Commissioner of Public Lands: Hilary Franz</option>
+                <option value="q;Steve McLaughlin">Commissioner of Public Lands: Steve McLaughlin</option>
+                <option value="t;Write-In">Commissioner of Public Lands: Write-In</option>
+                <option value="u;Michael J. Trickey">Court of Appeals Judge Position 1: Michael J. Trickey</option>
+                <option value="x;Write-In">Court of Appeals Judge Position 1: Write-In</option>
+                <option value="y;Bill Bryant">Governor: Bill Bryant</option>
+                <option value="z;Jay Inslee">Governor: Jay Inslee</option>
+                <option value="cb;Write-In">Governor: Write-In</option>
+                <option value="db;No">Initiative Measure 1433: No</option>
+                <option value="gb;Yes">Initiative Measure 1433: Yes</option>
+                <option value="hb;No">Initiative Measure 1464: No</option>
+                <option value="kb;Yes">Initiative Measure 1464: Yes</option>
+                <option value="lb;No">Initiative Measure 1491: No</option>
+                <option value="ob;Yes">Initiative Measure 1491: Yes</option>
+                <option value="pb;No">Initiative Measure 1501: No</option>
+                <option value="sb;Yes">Initiative Measure 1501: Yes</option>
+                <option value="tb;No">Initiative Measure 732: No</option>
+                <option value="wb;Yes">Initiative Measure 732: Yes</option>
+                <option value="xb;No">Initiative Measure 735: No</option>
+                <option value="ac;Yes">Initiative Measure 735: Yes</option>
+                <option value="bc;Mike Kreidler">Insurance Commissioner: Mike Kreidler</option>
+                <option value="cc;Richard Schrock">Insurance Commissioner: Richard Schrock</option>
+                <option value="fc;Write-In">Insurance Commissioner: Write-In</option>
+                <option value="gc;No">King County Charter Amendment 1: No</option>
+                <option value="jc;Yes">King County Charter Amendment 1: Yes</option>
+                <option value="kc;No">King County Charter Amendment 2: No</option>
+                <option value="nc;Yes">King County Charter Amendment 2: Yes</option>
+                <option value="oc;Cyrus Habib">Lieutenant Governor: Cyrus Habib</option>
+                <option value="pc;Marty McClendon">Lieutenant Governor: Marty McClendon</option>
+                <option value="sc;Write-In">Lieutenant Governor: Write-In</option>
+                <option value="tc;Kim Wyman">Secretary of State: Kim Wyman</option>
+                <option value="wc;Tina Podlodowski">Secretary of State: Tina Podlodowski</option>
+                <option value="xc;Write-In">Secretary of State: Write-In</option>
+                <option value="yc;Approved">Senate Joint Resolution 8210: Approved</option>
+                <option value="zc;Rejected">Senate Joint Resolution 8210: Rejected</option>
+                <option value="cd;Mark Miloscia">State Auditor: Mark Miloscia</option>
+                <option value="dd;Pat (Patrice) McCarthy">State Auditor: Pat (Patrice) McCarthy</option>
+                <option value="gd;Write-In">State Auditor: Write-In</option>
+                <option value="hd;David DeWolf">State Supreme Court Justice Position 1: David DeWolf</option>
+                <option value="id;Mary Yu">State Supreme Court Justice Position 1: Mary Yu</option>
+                <option value="ld;Write-In">State Supreme Court Justice Position 1: Write-In</option>
+                <option value="md;Barbara Madsen">State Supreme Court Justice Position 5: Barbara Madsen</option>
+                <option value="nd;Greg Zempel">State Supreme Court Justice Position 5: Greg Zempel</option>
+                <option value="qd;Write-In">State Supreme Court Justice Position 5: Write-In</option>
+                <option value="rd;Charles (Charlie) Wiggins">State Supreme Court Justice Position 6: Charles (Charlie) Wiggins</option>
+                <option value="sd;Dave Larson">State Supreme Court Justice Position 6: Dave Larson</option>
+                <option value="vd;Write-In">State Supreme Court Justice Position 6: Write-In</option>
+                <option value="wd;Duane Davidson">State Treasurer: Duane Davidson</option>
+                <option value="xd;Michael Waite">State Treasurer: Michael Waite</option>
+                <option value="ae;Write-In">State Treasurer: Write-In</option>
+                <option value="be;Chris Reykdal">Superintendent of Public Instruction: Chris Reykdal</option>
+                <option value="ce;Erin Jones">Superintendent of Public Instruction: Erin Jones</option>
+                <option value="fe;Write-In">Superintendent of Public Instruction: Write-In</option>
+                <option value="ge;David Greenspan">Superior Court Judge Position 14: David Greenspan</option>
+                <option value="he;Nicole Gaines Phelps">Superior Court Judge Position 14: Nicole Gaines Phelps</option>
+                <option value="ke;Write-In">Superior Court Judge Position 14: Write-In</option>
+                <option value="le;David Keenan">Superior Court Judge Position 26: David Keenan</option>
+                <option value="me;John H. O'Rourke">Superior Court Judge Position 26: John H. O'Rourke</option>
+                <option value="pe;Write-In">Superior Court Judge Position 26: Write-In</option>
+                <option value="qe;Helen Halpert">Superior Court Judge Position 31: Helen Halpert</option>
+                <option value="re;Marc S. Stern">Superior Court Judge Position 31: Marc S. Stern</option>
+                <option value="ue;Write-In">Superior Court Judge Position 31: Write-In</option>
+                <option value="ve;Cathy Moore">Superior Court Judge Position 44: Cathy Moore</option>
+                <option value="we;Eric Newman">Superior Court Judge Position 44: Eric Newman</option>
+                <option value="ze;Write-In">Superior Court Judge Position 44: Write-In</option>
+                <option value="af;Anthony Gipe">Superior Court Judge Position 52: Anthony Gipe</option>
+                <option value="bf;Kristin Richardson">Superior Court Judge Position 52: Kristin Richardson</option>
+                <option value="ef;Write-In">Superior Court Judge Position 52: Write-In</option>
+                <option value="ff;Mariane Spearman">Superior Court Judge Position 53: Mariane Spearman</option>
+                <option value="gf;Thomas Cline">Superior Court Judge Position 53: Thomas Cline</option>
+                <option value="jf;Write-In">Superior Court Judge Position 53: Write-In</option>
+                <option value="kf;Alyson Kennedy Osborne">US President & Vice President: Alyson Kennedy & Osborne Hart</option>
+                <option value="lf;Darrell L. Castle">US President & Vice President: Darrell L. Castle & Scott N. Bradley</option>
+                <option value="mf;Donald J. Trump" selected>US President & Vice President: Donald J. Trump & Michael R. Pence</option>
+                <option value="nf;Gary Johnson Bill">US President & Vice President: Gary Johnson & Bill Weld</option>
+                <option value="of;Gloria Estela La">US President & Vice President: Gloria Estela La Riva & Eugene Puryear</option>
+                <option value="pf;Hillary Clinton Tim">US President & Vice President: Hillary Clinton & Tim Kaine</option>
+                <option value="qf;Jill Stein Ajamu">US President & Vice President: Jill Stein & Ajamu Baraka</option>
+                <option value="tf;Write-In">US President & Vice President: Write-In</option>
+                <option value="uf;Chris Vance">US Senator: Chris Vance</option>
+                <option value="vf;Patty Murray">US Senator: Patty Murray</option>
+                <option value="yf;Write-In">US Senator: Write-In</option>
+            </select>
+            &nbsp;
+            &nbsp;
+            Y data:  
+            <select id = "y_dataset">
+                <option value="c;Maintained">Advisory Vote 14: Maintained</option>
+                <option value="d;Repealed">Advisory Vote 14: Repealed</option>
+                <option value="g;Maintained">Advisory Vote 15: Maintained</option>
+                <option value="h;Repealed">Advisory Vote 15: Repealed</option>
+                <option value="k;Bob Ferguson">Attorney General: Bob Ferguson</option>
+                <option value="l;Joshua B. Trumbull">Attorney General: Joshua B. Trumbull</option>
+                <option value="o;Write-In">Attorney General: Write-In</option>
+                <option value="p;Hilary Franz">Commissioner of Public Lands: Hilary Franz</option>
+                <option value="q;Steve McLaughlin">Commissioner of Public Lands: Steve McLaughlin</option>
+                <option value="t;Write-In">Commissioner of Public Lands: Write-In</option>
+                <option value="u;Michael J. Trickey">Court of Appeals Judge Position 1: Michael J. Trickey</option>
+                <option value="x;Write-In">Court of Appeals Judge Position 1: Write-In</option>
+                <option value="y;Bill Bryant">Governor: Bill Bryant</option>
+                <option value="z;Jay Inslee">Governor: Jay Inslee</option>
+                <option value="cb;Write-In">Governor: Write-In</option>
+                <option value="db;No">Initiative Measure 1433: No</option>
+                <option value="gb;Yes">Initiative Measure 1433: Yes</option>
+                <option value="hb;No" selected>Initiative Measure 1464: No</option>
+                <option value="kb;Yes">Initiative Measure 1464: Yes</option>
+                <option value="lb;No">Initiative Measure 1491: No</option>
+                <option value="ob;Yes">Initiative Measure 1491: Yes</option>
+                <option value="pb;No">Initiative Measure 1501: No</option>
+                <option value="sb;Yes">Initiative Measure 1501: Yes</option>
+                <option value="tb;No">Initiative Measure 732: No</option>
+                <option value="wb;Yes">Initiative Measure 732: Yes</option>
+                <option value="xb;No">Initiative Measure 735: No</option>
+                <option value="ac;Yes">Initiative Measure 735: Yes</option>
+                <option value="bc;Mike Kreidler">Insurance Commissioner: Mike Kreidler</option>
+                <option value="cc;Richard Schrock">Insurance Commissioner: Richard Schrock</option>
+                <option value="fc;Write-In">Insurance Commissioner: Write-In</option>
+                <option value="gc;No">King County Charter Amendment 1: No</option>
+                <option value="jc;Yes">King County Charter Amendment 1: Yes</option>
+                <option value="kc;No">King County Charter Amendment 2: No</option>
+                <option value="nc;Yes">King County Charter Amendment 2: Yes</option>
+                <option value="oc;Cyrus Habib">Lieutenant Governor: Cyrus Habib</option>
+                <option value="pc;Marty McClendon">Lieutenant Governor: Marty McClendon</option>
+                <option value="sc;Write-In">Lieutenant Governor: Write-In</option>
+                <option value="tc;Kim Wyman">Secretary of State: Kim Wyman</option>
+                <option value="wc;Tina Podlodowski">Secretary of State: Tina Podlodowski</option>
+                <option value="xc;Write-In">Secretary of State: Write-In</option>
+                <option value="yc;Approved">Senate Joint Resolution 8210: Approved</option>
+                <option value="zc;Rejected">Senate Joint Resolution 8210: Rejected</option>
+                <option value="cd;Mark Miloscia">State Auditor: Mark Miloscia</option>
+                <option value="dd;Pat (Patrice) McCarthy">State Auditor: Pat (Patrice) McCarthy</option>
+                <option value="gd;Write-In">State Auditor: Write-In</option>
+                <option value="hd;David DeWolf">State Supreme Court Justice Position 1: David DeWolf</option>
+                <option value="id;Mary Yu">State Supreme Court Justice Position 1: Mary Yu</option>
+                <option value="ld;Write-In">State Supreme Court Justice Position 1: Write-In</option>
+                <option value="md;Barbara Madsen">State Supreme Court Justice Position 5: Barbara Madsen</option>
+                <option value="nd;Greg Zempel">State Supreme Court Justice Position 5: Greg Zempel</option>
+                <option value="qd;Write-In">State Supreme Court Justice Position 5: Write-In</option>
+                <option value="rd;Charles (Charlie) Wiggins">State Supreme Court Justice Position 6: Charles (Charlie) Wiggins</option>
+                <option value="sd;Dave Larson">State Supreme Court Justice Position 6: Dave Larson</option>
+                <option value="vd;Write-In">State Supreme Court Justice Position 6: Write-In</option>
+                <option value="wd;Duane Davidson">State Treasurer: Duane Davidson</option>
+                <option value="xd;Michael Waite">State Treasurer: Michael Waite</option>
+                <option value="ae;Write-In">State Treasurer: Write-In</option>
+                <option value="be;Chris Reykdal">Superintendent of Public Instruction: Chris Reykdal</option>
+                <option value="ce;Erin Jones">Superintendent of Public Instruction: Erin Jones</option>
+                <option value="fe;Write-In">Superintendent of Public Instruction: Write-In</option>
+                <option value="ge;David Greenspan">Superior Court Judge Position 14: David Greenspan</option>
+                <option value="he;Nicole Gaines Phelps">Superior Court Judge Position 14: Nicole Gaines Phelps</option>
+                <option value="ke;Write-In">Superior Court Judge Position 14: Write-In</option>
+                <option value="le;David Keenan">Superior Court Judge Position 26: David Keenan</option>
+                <option value="me;John H. O'Rourke">Superior Court Judge Position 26: John H. O'Rourke</option>
+                <option value="pe;Write-In">Superior Court Judge Position 26: Write-In</option>
+                <option value="qe;Helen Halpert">Superior Court Judge Position 31: Helen Halpert</option>
+                <option value="re;Marc S. Stern">Superior Court Judge Position 31: Marc S. Stern</option>
+                <option value="ue;Write-In">Superior Court Judge Position 31: Write-In</option>
+                <option value="ve;Cathy Moore">Superior Court Judge Position 44: Cathy Moore</option>
+                <option value="we;Eric Newman">Superior Court Judge Position 44: Eric Newman</option>
+                <option value="ze;Write-In">Superior Court Judge Position 44: Write-In</option>
+                <option value="af;Anthony Gipe">Superior Court Judge Position 52: Anthony Gipe</option>
+                <option value="bf;Kristin Richardson">Superior Court Judge Position 52: Kristin Richardson</option>
+                <option value="ef;Write-In">Superior Court Judge Position 52: Write-In</option>
+                <option value="ff;Mariane Spearman">Superior Court Judge Position 53: Mariane Spearman</option>
+                <option value="gf;Thomas Cline">Superior Court Judge Position 53: Thomas Cline</option>
+                <option value="jf;Write-In">Superior Court Judge Position 53: Write-In</option>
+                <option value="kf;Alyson Kennedy Osborne">US President & Vice President: Alyson Kennedy & Osborne Hart</option>
+                <option value="lf;Darrell L. Castle">US President & Vice President: Darrell L. Castle & Scott N. Bradley</option>
+                <option value="mf;Donald J. Trump">US President & Vice President: Donald J. Trump & Michael R. Pence</option>
+                <option value="nf;Gary Johnson Bill">US President & Vice President: Gary Johnson & Bill Weld</option>
+                <option value="of;Gloria Estela La">US President & Vice President: Gloria Estela La Riva & Eugene Puryear</option>
+                <option value="pf;Hillary Clinton Tim">US President & Vice President: Hillary Clinton & Tim Kaine</option>
+                <option value="qf;Jill Stein Ajamu">US President & Vice President: Jill Stein & Ajamu Baraka</option>
+                <option value="tf;Write-In">US President & Vice President: Write-In</option>
+                <option value="uf;Chris Vance">US Senator: Chris Vance</option>
+                <option value="vf;Patty Murray">US Senator: Patty Murray</option>
+                <option value="yf;Write-In">US Senator: Write-In</option>
+                </select>
         </div>
     </div>
 

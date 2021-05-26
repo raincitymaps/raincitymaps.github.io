@@ -19,9 +19,9 @@ zoom: 11,
 scrollWheelZoom: true
 });
 
-L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+    attribution: 'Map tiles by  &copy; <a href="https://carto.com/attribution" target="_blank">CARTO</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
 }).addTo(map);
 
 
